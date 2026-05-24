@@ -69,6 +69,7 @@ interface ProfileProps {
 }
 
 const Profile: FC<ProfileProps> = ({ isVisible = true }) => {
+  const [animKey, setAnimKey] = useState(0);
   const [isEditing, setIsEditing] = useState(false);
   const [isReadOpen, setIsReadOpen] = useState(false);
 
@@ -108,12 +109,14 @@ const Profile: FC<ProfileProps> = ({ isVisible = true }) => {
       display: "flex",
       flexDirection: "column",
       width: "100%",
-      height: "100vh",
+      height: "100%",
       borderRadius: "14px 14px 0 0",
       border: "1px solid var(--light-100)",
       gap: 15,
       padding: "20px 15px 15px 15px",
-      overflow: "hidden",
+      overflowY: "auto",      
+      scrollbarWidth: "none",   
+      msOverflowStyle: "none",  
       position: "relative",
       background: "linear-gradient(135deg, var(--light-200) 0%, var(--light-200) 50%, var(--light-200) 100%)",
     },
@@ -122,7 +125,7 @@ const Profile: FC<ProfileProps> = ({ isVisible = true }) => {
       top: 0,
       left: 0,
       width: "100%",
-      height: "100%",
+      height: "100vh",
       zIndex: 0,
       pointerEvents: "none",
       filter: "url(#noiseFilter)",
@@ -410,7 +413,7 @@ const Profile: FC<ProfileProps> = ({ isVisible = true }) => {
   ];
 
   return (
-    <motion.div style={styles.container} variants={containerVariants} initial="hidden" animate={isVisible ? "visible" : "hidden"} exit="exit">
+    <motion.div key={animKey} style={styles.container} variants={containerVariants} initial="hidden" animate={isVisible ? "visible" : "hidden"} exit="exit">
       <svg style={{ display: "none" }}>
         <filter id="noiseFilter">
           <feTurbulence type="fractalNoise" baseFrequency="0.6" stitchTiles="stitch" />
@@ -442,6 +445,7 @@ const Profile: FC<ProfileProps> = ({ isVisible = true }) => {
           onClick={() => {
             if (isReadOpen) {
               setIsReadOpen(false);
+              setAnimKey(prev => prev + 1);
             } else {
               setIsEditing((prev) => !prev);
             }
@@ -608,7 +612,7 @@ const Profile: FC<ProfileProps> = ({ isVisible = true }) => {
         )}
 
         {isReadOpen && (
-          <motion.div style={styles.wrappers} variants={itemVariants}>
+          <Box style={styles.wrappers}>
             <Box style={styles.wrapper}>
               {legalDocs.map((doc) => (
                 <Box key={doc.title} style={styles.box}>
@@ -619,7 +623,7 @@ const Profile: FC<ProfileProps> = ({ isVisible = true }) => {
                 </Box>
               ))}
             </Box>
-          </motion.div>
+          </Box>
         )}
       </Box>
     </motion.div>

@@ -3,6 +3,8 @@ import { Box, Text } from "@mantine/core";
 import { motion } from "framer-motion";
 import ProfileImg from "@/assets/user.jpg";
 import SparkIcon from "@/assets/icons/spark";
+import { ROUTES } from "@/utils/constants";
+import { useNavigate } from "react-router-dom";
 
 const containerVariants = {
   hidden: {
@@ -194,6 +196,8 @@ const Activity: FC<ActivityProps> = ({ isVisible = true }) => {
     },
   } as const;
 
+  const navigate = useNavigate();
+  
   return (
     <motion.div style={styles.container} variants={containerVariants} initial="hidden" animate={isVisible ? "visible" : "hidden"} exit="exit">
       <motion.div style={styles.initials} variants={itemVariants}>
@@ -220,7 +224,7 @@ const Activity: FC<ActivityProps> = ({ isVisible = true }) => {
         </motion.div>
       </motion.div>
 
-      <motion.div style={styles.middle} variants={itemVariants}>
+      <motion.div style={styles.middle} variants={itemVariants} onClick={() => navigate(ROUTES.ACTIVITY)}>
         <Box style={styles.box}>
           <Box style={styles.top}>
             <Box style={styles.icons}>
