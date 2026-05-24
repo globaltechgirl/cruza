@@ -9,7 +9,7 @@ function Activity() {
         height: "100%",
       }}
     >
-      <Main />
+      <Main cardSwipe={true} />
     </Box>
   );
 }
