@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { Box, Text } from "@mantine/core";
 import GoogleIcon from "@/assets/icons/google";
-import Logo from "@/assets/cruizr.svg?react";
+import Logo from "@/assets/cruza.svg?react";
 import Icon from "@/assets/icon.svg";
 
 const styles = {

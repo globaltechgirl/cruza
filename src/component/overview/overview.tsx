@@ -1,6 +1,6 @@
 import { FC, useEffect, useState } from "react";
 import { Box } from "@mantine/core";
-import Logo from "@/assets/cruizr.svg?react";
+import Logo from "@/assets/cruza.svg?react";
 import Navigate from "./navigates";
 
 const styles = {
