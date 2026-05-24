@@ -113,7 +113,7 @@ const Profile: FC<ProfileProps> = ({ isVisible = true }) => {
       borderRadius: "14px 14px 0 0",
       border: "1px solid var(--light-100)",
       gap: 15,
-      padding: "20px 15px 15px 15px",
+      padding: "25px 15px 15px 15px",
       overflowY: "auto",      
       scrollbarWidth: "none",   
       msOverflowStyle: "none",  
@@ -152,7 +152,7 @@ const Profile: FC<ProfileProps> = ({ isVisible = true }) => {
     icon: {
       width: 18,
       height: 18,
-      color: "var(--red-300)",
+      color: "var(--dark-200)",
     },
     menus: {
       position: "relative",
@@ -456,9 +456,7 @@ const Profile: FC<ProfileProps> = ({ isVisible = true }) => {
               <IconX style={styles.iconx} />
             </Box>
           ) : (
-            <Box style={styles.nav2}>
-              <Text style={styles.label}>{isEditing ? "Save" : "Edit"}</Text>
-            </Box>
+            <Box style={styles.nav2}>{isEditing ? "Save" : "Edit"}</Box>
           )}
         </Box>
       </motion.div>
