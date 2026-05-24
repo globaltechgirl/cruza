@@ -2,7 +2,7 @@ import { FC, useEffect, useRef, useState } from "react";
 import { Box, Image, Select, Text } from "@mantine/core";
 import { motion } from "framer-motion";
 import { IconX } from "@tabler/icons-react";
-import ProfileImg from "@/assets/profile.png";
+import UserImg from "@/assets/user.jpg";
 import CircleIcon from "@/assets/icons/circle";
 import CameraIcon from "@/assets/icons/camera";
 
@@ -72,8 +72,8 @@ const Profile: FC<ProfileProps> = ({ isVisible = true }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [isReadOpen, setIsReadOpen] = useState(false);
 
-  const [name, setName] = useState("John Doe");
-  const [email, setEmail] = useState("testemail@gmail.com");
+  const [name, setName] = useState("Daniel Smith");
+  const [email, setEmail] = useState("danielsmith@gmail.com");
   const [phone, setPhone] = useState("01234567890");
   const [gender, setGender] = useState("Male");
   const [location, setLocation] = useState("Lagos");
@@ -83,7 +83,7 @@ const Profile: FC<ProfileProps> = ({ isVisible = true }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const fileInputRef = useRef<HTMLInputElement | null>(null);
-  const [profileSrc, setProfileSrc] = useState<string>(ProfileImg);
+  const [profileSrc, setProfileSrc] = useState<string>(UserImg);
   const [profileObjectUrl, setProfileObjectUrl] = useState<string | null>(null);
 
   useEffect(() => {
