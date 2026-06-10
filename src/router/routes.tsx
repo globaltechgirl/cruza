@@ -5,7 +5,7 @@ import PrivateLayout from "@/component/layout/privateLayout";
 import Login from "@/pages/auth/login";
 import AuthGuard from "@/router/authGuard";
 import { ROUTES } from "@/utils/constants";
-import Overview from "@/pages/overview";
+import Auth from "@/pages/auth";
 import Home from "@/pages/home";
 import Ride from "@/pages/ride";
 import Activity from "@/pages/activity";
@@ -18,8 +18,8 @@ import Register from "@/pages/auth/register";
 
 const routes: RouteObject[] = [
   {
-    path: ROUTES.OVERVIEW,
-    element: <Overview />,
+    path: ROUTES.AUTH,
+    element: <Auth />,
   },
   {
     path: ROUTES.REGISTER,
@@ -37,7 +37,7 @@ const routes: RouteObject[] = [
       {
         element: <PrivateLayout />,
         children: [
-          { path: "", element: <Navigate to={ROUTES.HOME} replace /> },
+          { path: "", element: <Navigate to={ROUTES.AUTH} replace /> },
           { path: "home", element: <Home /> },
           { path: "activity", element: <Activity /> },
           { path: "ride", element: <Ride /> },
@@ -51,11 +51,9 @@ const routes: RouteObject[] = [
     ],
   },
 
-  // --- FALLBACK WILDCARD ---
   {
     path: "*",
-    // Safely fallback to overview if an invalid route is supplied
-    element: <Navigate to={ROUTES.OVERVIEW} replace />,
+    element: <Navigate to={ROUTES.AUTH} replace />,
   },
 ];
 
