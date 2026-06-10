@@ -121,7 +121,7 @@ const Navigate: FC<NavigateProps> = ({ isVisible = true }) => {
     middle: {
       width: "100%",
       border: "1px solid var(--light-100)",
-      borderRadius: 10,
+      borderRadius: 12,
       padding: 2,
       background: "rgba(255, 255, 255, 0.15)",
       backdropFilter: "blur(14px)",
@@ -172,7 +172,7 @@ const Navigate: FC<NavigateProps> = ({ isVisible = true }) => {
     content: {
       width: "100%",
       border: "1px solid var(--light-100)",
-      borderRadius: 10,
+      borderRadius: 12,
       padding: 2,
       background: "rgba(255, 255, 255, 0.15)",
       backdropFilter: "blur(14px)",

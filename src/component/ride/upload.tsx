@@ -74,7 +74,7 @@ const Upload: FC<UploadProps> = ({ isVisible = true, onStateChange }) => {
       height: 65,
       backgroundColor: "var(--light-100)",
       border: "1px dashed var(--dark-300)",
-      borderRadius: 10,
+      borderRadius: 12,
       padding: 2,
       display: "flex",
       alignItems: "center",

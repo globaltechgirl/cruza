@@ -111,15 +111,15 @@ const Overview: FC<OverviewProps> = ({ isVisible = true }) => {
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
-      gap: 12
+      gap: 10
     },
     logo: {
-      width: 30,
-      height: 30,
+      width: 28,
+      height: 28,
       borderRadius: 8,
     },
     title: {
-      fontSize: 20,
+      fontSize: 18,
       fontWeight: 600,
       color: "var(--dark-100)",
       textTransform: "uppercase",

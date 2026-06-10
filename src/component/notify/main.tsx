@@ -41,7 +41,7 @@ const Main: FC = () => {
     },
     main: {
       width: "100%",
-      borderRadius: 10,
+      borderRadius: 12,
       backgroundColor: "var(--light-100)",
       border: "1px dashed var(--dark-300)",
       padding: 2,

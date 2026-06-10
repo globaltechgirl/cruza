@@ -1,13 +1,10 @@
 import { FC, useRef, useState } from "react";
 import { Box } from "@mantine/core";
 import { motion, AnimatePresence } from "framer-motion";
-import { useNavigate } from "react-router-dom";
-import { ROUTES } from "@/utils/constants";
 import Activity from "./activity";
 import MapImage from "@/assets/map.jpg";
 import Logo from "@/assets/logo.svg?react";
 import Profile from "@/component/profile/main";
-import GridIcon from "@/assets/icons/grid";
 
 const containerVariants = {
   hidden: {},
@@ -43,38 +40,8 @@ const bodyVariants = {
   },
 };
 
-const menusVariants = {
-  hidden: {},
-  visible: {
-    transition: {
-      staggerChildren: 0.12,
-      delayChildren: 0.05,
-    },
-  },
-};
-
-const menuVariants = {
-  hidden: {
-    opacity: 0,
-    scale: 0.7,
-    y: -10,
-  },
-  visible: {
-    opacity: 1,
-    scale: 1,
-    y: 0,
-    transition: {
-      type: "spring" as const,
-      stiffness: 500,
-      damping: 22,
-    },
-  },
-};
-
 const Main: FC = () => {
-  const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(true);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const MIN_HEIGHT = 70;
   const MAX_HEIGHT = 96;
@@ -220,44 +187,12 @@ const Main: FC = () => {
       height: 25,
       borderRadius: 6
     },
-    icons: {
-      width: 25,
-      height: 25,
-      borderRadius: "50%",
-      background: "rgba(255, 255, 255, 0.55)",
-      backdropFilter: "blur(14px)",
-      WebkitBackdropFilter: "blur(14px)",
-      border: "1px solid var(--light-100)",
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-    },
-    icon: {
-      width: 13,
-      height: 13,
-      color: "var(--dark-200)",
-    },
-    menus: {
-      position: "relative",
-    },
-    menu: {
-      position: "absolute",
-      top: 30,
-      right: -20,
-      width: 130,
-      padding: 4,
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
-      gap: 8,
-      zIndex: 100,
-    },
     value: {
       padding: "3px 10px",
-      background: "rgba(255, 255, 255, 0.55)",
+      background: "rgba(229, 228, 226)",
       backdropFilter: "blur(14px)",
       WebkitBackdropFilter: "blur(14px)",
-      border: "1px solid var(--light-100)",
+      border: "1px solid var(--dark-400)",
       borderRadius: 14,
       fontSize: 11,
       fontWeight: 500,
@@ -345,30 +280,14 @@ const Main: FC = () => {
         <motion.div style={styles.box} variants={itemVariants} initial={false} animate={isOpen ? "open" : "closed"} onClick={(event) => event.stopPropagation()}>
           <Logo style={styles.logo} />
 
-          <Box style={styles.menus}>
-            <Box style={styles.icons} onClick={() => setIsMenuOpen((prev) => !prev)}>
-              <GridIcon style={styles.icon} />
-            </Box>
-
-            {isMenuOpen && (
-              <motion.div style={styles.menu} variants={menusVariants} initial="hidden" animate="visible" exit="hidden">
-                <motion.div style={styles.value} variants={menuVariants} onClick={() => { setIsMenuOpen(false); navigate(ROUTES.RIDE); }}>
-                  Book Ride
-                </motion.div>
-
-                <motion.div style={styles.value} variants={menuVariants} onClick={() => { setIsMenuOpen(false); setProfileOpen(true); }}>
-                  View Profile
-                </motion.div>
-              </motion.div>
-            )}
-          </Box>
+          <Box style={styles.value} onClick={() => { setProfileOpen(true); }}>Profile</Box>
         </motion.div> 
 
         <motion.div style={styles.body} variants={bodyVariants} initial={false} animate={isOpen ? "open" : "closed"} onClick={(event) => event.stopPropagation()} >
           <Box style={styles.blurOverlay} />
 
           <Box style={styles.content}>
-            <Activity isVisible={isOpen} />
+            <Activity  isVisible={isOpen} />
           </Box>
         </motion.div>
 

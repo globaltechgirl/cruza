@@ -129,7 +129,7 @@ const Activity: FC<ActivityProps> = ({ isVisible = true }) => {
     middle: {
       width: "100%",
       border: "1px solid var(--light-100)",
-      borderRadius: 10,
+      borderRadius: 12,
       padding: 2,
       background: "rgba(255, 255, 255, 0.15)",
       backdropFilter: "blur(14px)",
@@ -194,6 +194,19 @@ const Activity: FC<ActivityProps> = ({ isVisible = true }) => {
       color: "var(--dark-200)",
       lineHeight: 1.4,
     },
+    bottoms: {
+      width: "100%",
+      border: "1px solid rgba(102, 102, 102)",
+      borderRadius: 12,
+      padding: 10,
+      background: "rgba(102, 102, 102)",
+      backdropFilter: "blur(14px)",
+      WebkitBackdropFilter: "blur(14px)",
+      fontSize: 12,
+      fontWeight: 500,
+      color: "var(--light-100)",
+      textAlign: "center",
+    },
   } as const;
 
   const navigate = useNavigate();
@@ -251,6 +264,8 @@ const Activity: FC<ActivityProps> = ({ isVisible = true }) => {
           </Text>
         </Box>
       </motion.div>
+
+      <motion.div style={styles.bottoms} variants={itemVariants} onClick={() => { navigate(ROUTES.RIDE); }}>Book Ride</motion.div>
     </motion.div>
   );
 };

@@ -205,7 +205,7 @@ const Activity: FC<Props> = ({ onClose }) => {
       height: 15,
       border: "1px solid var(--dark-400)",
       backgroundColor: "var(--light-100)",
-      borderRadius: 10,
+      borderRadius: 12,
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
@@ -314,7 +314,7 @@ const Activity: FC<Props> = ({ onClose }) => {
       justifyContent: "center", 
       gap: 6,
       padding: 8,
-      borderRadius: 10,
+      borderRadius: 12,
       background: "rgba(255, 255, 255, 0.25)",
     },
     reviewIcons: { 
@@ -384,7 +384,7 @@ const Activity: FC<Props> = ({ onClose }) => {
       height: "100%",
       objectFit: "cover",
       objectPosition: "center",
-      borderRadius: 10,
+      borderRadius: 12,
     },
   } as const;
 

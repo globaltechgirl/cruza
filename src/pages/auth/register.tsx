@@ -189,7 +189,7 @@ const Register: FC<RegisterProps> = ({ isVisible = true }) => {
     },
     dot: {
       height: 6,
-      borderRadius: 10,
+      borderRadius: 12,
       backgroundColor: "var(--dark-400)",
       transition: "all 0.3s ease",
     },
@@ -328,8 +328,8 @@ const Register: FC<RegisterProps> = ({ isVisible = true }) => {
     },
     corner: {
       position: "absolute",
-      width: 8,
-      height: 8,
+      width: 12,
+      height: 12,
       borderColor: "var(--light-100)",
       borderStyle: "solid",
     },
