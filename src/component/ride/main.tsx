@@ -3,6 +3,8 @@ import { Box } from "@mantine/core";
 import { motion } from "framer-motion";
 import Navigator from "./navigate";
 import MapImage from "@/assets/map.jpg";
+import { useNavigate } from "react-router-dom"; 
+import { ROUTES } from "@/utils/constants";
 
 const containerVariants = {
   hidden: {},
@@ -76,34 +78,31 @@ const Main: FC = () => {
       display: "flex",
       flexDirection: "column",
     },
+    header: {
+      width: "100%",
+      display: "flex",
+      justifyContent: "flex-end",
+      padding: 15,
+    },
+    value: {
+      padding: "3px 10px",
+      background: "rgba(229, 228, 226)",
+      backdropFilter: "blur(14px)",
+      WebkitBackdropFilter: "blur(14px)",
+      border: "1px solid var(--dark-400)",
+      borderRadius: 14,
+      fontSize: 11,
+      fontWeight: 500,
+      color: "var(--dark-200)",
+      cursor: "pointer",
+      width: "fit-content",
+    },
     box: {
       width: "100%",
       display: "flex",
       alignItems: "center",
       justifyContent: "space-between",
       padding: 15,
-    },
-    logo: {
-      width: 25,
-      height: 25,
-      color: "var(--dark-200)",
-    },
-    icons: {
-      width: 25,
-      height: 25,
-      borderRadius: "50%",
-      background: "rgba(255, 255, 255, 0.15)",
-      backdropFilter: "blur(14px)",
-      WebkitBackdropFilter: "blur(14px)",
-      border: "1px solid var(--light-100)",
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-    },
-    icon: {
-      width: 13,
-      height: 13,
-      color: "var(--dark-200)",
     },
     body: {
       position: "absolute",
@@ -133,6 +132,8 @@ const Main: FC = () => {
     },
   } as const;
 
+  const navigate = useNavigate();
+
   const [isOpen, setIsOpen] = useState(true);
   
   return (
@@ -148,9 +149,14 @@ const Main: FC = () => {
       <Box style={styles.noiseOverlay} />
 
       <Box style={styles.uiLayer}>
+        <Box style={styles.header}>
+          <Box style={styles.value} onClick={(event) => { event.stopPropagation(); navigate(ROUTES.HOME);  }}>
+            Cancel Ride
+          </Box>
+        </Box>
+
         <motion.div style={styles.body} variants={bodyVariants} initial={false} animate={isOpen ? "open" : "closed"} onClick={(event) => event.stopPropagation()} >
           <Box style={styles.blurOverlay} />
-
           <Box style={styles.content}>
             <Navigator isVisible={isOpen} />
           </Box>
