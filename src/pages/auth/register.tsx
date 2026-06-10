@@ -12,7 +12,7 @@ import GoogleIcon from "@/assets/icons/google";
 
 const ROUTES = {
   HOME: "/home",
-  REGISTER: "/register"
+  LOGIN: "/login"
 };
 
 const slides = [CenterImg1, CenterImg2, CenterImg3];
@@ -45,11 +45,11 @@ const itemVariants = {
   },
 };
 
-interface LoginProps {
+interface RegisterProps {
   isVisible?: boolean;
 }
 
-const Login: FC<LoginProps> = ({ isVisible = true }) => {
+const Register: FC<RegisterProps> = ({ isVisible = true }) => {
   const [email, setEmail] = useState("johndoe@gmail.com");
   const [password, setPassword] = useState("P@ssword123!");
   const [showPassword, setShowPassword] = useState(false);
@@ -86,7 +86,7 @@ const Login: FC<LoginProps> = ({ isVisible = true }) => {
   };
 
   const handleLoginRouteRedirect = () => {
-    window.location.href = ROUTES.REGISTER;
+    window.location.href = ROUTES.LOGIN;
   };
 
   const styles = {
@@ -444,8 +444,8 @@ const Login: FC<LoginProps> = ({ isVisible = true }) => {
           </motion.div>
 
           <motion.div style={styles.links} variants={itemVariants}>
-            Don't have an account? {" "}
-            <span style={styles.link} onClick={handleLoginRouteRedirect}>Register</span>
+            Already have an account? {" "}
+            <span style={styles.link} onClick={handleLoginRouteRedirect}>Login</span>
           </motion.div>
         </Box>
       </motion.div>
@@ -453,4 +453,4 @@ const Login: FC<LoginProps> = ({ isVisible = true }) => {
   );
 };
 
-export default Login;
+export default Register;

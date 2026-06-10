@@ -218,7 +218,7 @@ const Main: FC = () => {
     logo: {
       width: 25,
       height: 25,
-      color: "var(--dark-200)",
+      borderRadius: 6
     },
     icons: {
       width: 25,
