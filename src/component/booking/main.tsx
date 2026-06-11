@@ -110,7 +110,7 @@ const Main: FC = () => {
       flex: 1,
       minHeight: 0,
       width: "100%",
-      height: "100vh",
+      height: "calc(var(--vh) * 100)",
       overflow: "hidden",
       position: "relative",
       background:
@@ -121,7 +121,7 @@ const Main: FC = () => {
       top: 0,
       left: 0,
       width: "100%",
-      height: "100vh",
+      height: "calc(var(--vh) * 100)",
       zIndex: 0,
       pointerEvents: "none",
       filter: "url(#noiseFilter)",
@@ -239,7 +239,7 @@ const Main: FC = () => {
       left: "50%",
       bottom: 0,
       width: "100%",
-      height: "100vh",
+      height: "calc(var(--vh) * 100)",
       zIndex: 999,
       transform: chatOpen
         ? "translate(-50%, 0)"
@@ -252,7 +252,7 @@ const Main: FC = () => {
       left: "50%",
       bottom: 0,
       width: "100%",
-      height: "100vh",
+      height: "calc(var(--vh) * 100)",
       zIndex: 999,
       transform: activityOpen
         ? "translate(-50%, 0)"

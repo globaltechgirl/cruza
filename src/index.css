@@ -2,6 +2,7 @@
 
 /* Light theme (default) */
 :root {
+  --vh: 1vh;
   --light-100: #ffffff;
   --light-200: #f1f1f1;
   --light-300: #f5f5f5;

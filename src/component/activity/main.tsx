@@ -21,7 +21,7 @@ const Main: FC<Props> = ({ cardSwipe }) => {
       alignItems: "center",
       justifyContent: "center",
       width: "100%",
-      height: "100vh",
+      height: "calc(var(--vh) * 100)",
       gap: 15,
       padding: 15,
       overflow: "hidden",

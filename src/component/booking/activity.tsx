@@ -84,7 +84,7 @@ const Activity: FC<Props> = ({ onClose }) => {
       flex: 1,
       minHeight: 0,
       width: "100%",
-      height: "100vh",
+      height: "calc(var(--vh) * 100)",
       overflow: "hidden",
       position: "relative",
       background:
@@ -95,7 +95,7 @@ const Activity: FC<Props> = ({ onClose }) => {
       top: 0,
       left: 0,
       width: "100%",
-      height: "100vh",
+      height: "calc(var(--vh) * 100)",
       zIndex: 0,
       pointerEvents: "none",
       filter: "url(#noiseFilter)",

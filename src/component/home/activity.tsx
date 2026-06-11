@@ -58,7 +58,7 @@ const Activity: FC<ActivityProps> = ({ isVisible = true }) => {
     container: {
       display: "flex",
       flexDirection: "column",
-      gap: 15,
+      gap: 18,
     },
     initials: {
       width: 65,
@@ -86,16 +86,16 @@ const Activity: FC<ActivityProps> = ({ isVisible = true }) => {
       display: "flex",
       flexDirection: "column",
       alignItems: "center",
-      gap: 2,
+      gap: 3,
     },
     title: {
-      fontSize: 14,
+      fontSize: 18,
       fontWeight: 500,
       color: "var(--dark-100)",
       textTransform: "capitalize"
     },
     subtitle: {
-      fontSize: 10,
+      fontSize: 14,
       fontWeight: 500,
       color: "var(--dark-200)",
       textTransform: "lowercase"
@@ -202,7 +202,7 @@ const Activity: FC<ActivityProps> = ({ isVisible = true }) => {
       background: "rgba(102, 102, 102)",
       backdropFilter: "blur(14px)",
       WebkitBackdropFilter: "blur(14px)",
-      fontSize: 12,
+      fontSize: 16,
       fontWeight: 500,
       color: "var(--light-100)",
       textAlign: "center",
@@ -218,7 +218,7 @@ const Activity: FC<ActivityProps> = ({ isVisible = true }) => {
       </motion.div>
 
       <motion.div style={styles.titles} variants={itemVariants}>
-        <Text style={styles.title}>Daniel Smith</Text>
+        <Text style={styles.title}>Christopher Amah</Text>
         <Text style={styles.subtitle}>Babcock University</Text>
       </motion.div>
 
@@ -244,7 +244,7 @@ const Activity: FC<ActivityProps> = ({ isVisible = true }) => {
               <SparkIcon style={styles.icon} />
             </Box>
 
-            <Text style={styles.text}>Weekly Ride Activity</Text>
+            <Text style={styles.text}>Ride Activity</Text>
           </Box>
 
           <Box style={styles.bars}>
@@ -260,7 +260,7 @@ const Activity: FC<ActivityProps> = ({ isVisible = true }) => {
           </Box>
 
           <Text style={styles.info}>
-            You have completed 75% of your weekly ride activity!
+            You have completed 75% of your ride activity!
           </Text>
         </Box>
       </motion.div>

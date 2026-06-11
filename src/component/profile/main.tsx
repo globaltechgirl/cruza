@@ -1,9 +1,8 @@
 import { FC, useEffect, useRef, useState } from "react";
 import { Box, Image, Select, Text } from "@mantine/core";
 import { motion } from "framer-motion";
-import { IconX } from "@tabler/icons-react";
+import {  IconMenu4, IconX } from "@tabler/icons-react";
 import UserImg from "@/assets/user.jpg";
-import CircleIcon from "@/assets/icons/circle";
 import CameraIcon from "@/assets/icons/camera";
 
 const containerVariants = {
@@ -125,7 +124,7 @@ const Profile: FC<ProfileProps> = ({ isVisible = true }) => {
       top: 0,
       left: 0,
       width: "100%",
-      height: "100vh",
+      height: "calc(var(--vh) * 100)",
       zIndex: 0,
       pointerEvents: "none",
       filter: "url(#noiseFilter)",
@@ -143,15 +142,15 @@ const Profile: FC<ProfileProps> = ({ isVisible = true }) => {
       backdropFilter: "blur(14px)",
       WebkitBackdropFilter: "blur(14px)",
       borderRadius: "50%",
-      width: 20,
-      height: 20,
+      width: 24,
+      height: 24,
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
     },
     icon: {
-      width: 18,
-      height: 18,
+      width: 20,
+      height: 20,
       color: "var(--dark-200)",
     },
     menus: {
@@ -201,7 +200,7 @@ const Profile: FC<ProfileProps> = ({ isVisible = true }) => {
       WebkitBackdropFilter: "blur(14px)",
       border: "1px solid var(--light-100)",
       borderRadius: 14,
-      fontSize: 11,
+      fontSize: 12,
       fontWeight: 500,
       color: "var(--dark-200)",
       cursor: "pointer",
@@ -269,13 +268,13 @@ const Profile: FC<ProfileProps> = ({ isVisible = true }) => {
       gap: 2,
     },
     title: {
-      fontSize: 13,
+      fontSize: 18,
       fontWeight: 500,
       color: "var(--dark-100)",
       textTransform: "capitalize",
     },
     subtitle: {
-      fontSize: 10,
+      fontSize: 12,
       fontWeight: 500,
       color: "var(--dark-200)",
       textTransform: "lowercase",
@@ -314,12 +313,12 @@ const Profile: FC<ProfileProps> = ({ isVisible = true }) => {
       gap: 6,
     },
     value: {
-      fontSize: 12,
+      fontSize: 14,
       fontWeight: 500,
       color: "var(--dark-100)",
     },
     label: {
-      fontSize: 12,
+      fontSize: 14,
       fontWeight: 500,
       color: "var(--dark-200)",
     },
@@ -425,7 +424,7 @@ const Profile: FC<ProfileProps> = ({ isVisible = true }) => {
       <motion.div style={styles.top} variants={itemVariants}>
         <Box style={styles.menus}>
           <Box style={styles.nav1} onClick={() => setIsMenuOpen((prev) => !prev)}>
-            <CircleIcon style={styles.icon} />
+            <IconMenu4 style={styles.icon} />
           </Box>
 
           {isMenuOpen && (

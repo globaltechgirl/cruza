@@ -5,11 +5,11 @@ import { Outlet} from "react-router-dom";
 const PrivateLayout: FC = () => {
   const styles: Record<string, CSSProperties> = {
     appShell: {
-      minHeight: "100vh",
+      minHeight: "calc(var(--vh) * 100)",
       backgroundColor: "var(--light-200)",
     },
     mainWrapper: {
-      minHeight: "100vh",
+      minHeight: "calc(var(--vh) * 100)",
       overflow: "visible",
     },
     mainBox: {

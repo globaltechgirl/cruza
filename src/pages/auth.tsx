@@ -56,7 +56,7 @@ const Overview: FC<OverviewProps> = ({ isVisible = true }) => {
       display: "flex",
       flexDirection: "column",
       width: "100%",
-      height: "100vh",
+      height: "calc(var(--vh) * 100)",
       overflow: "hidden",
       position: "relative",
       cursor: "pointer",
@@ -114,12 +114,12 @@ const Overview: FC<OverviewProps> = ({ isVisible = true }) => {
       gap: 10
     },
     logo: {
-      width: 28,
-      height: 28,
-      borderRadius: 8,
+      width: 38,
+      height: 38,
+      borderRadius: 10, 
     },
     title: {
-      fontSize: 18,
+      fontSize: 28,
       fontWeight: 600,
       color: "var(--dark-100)",
       textTransform: "uppercase",

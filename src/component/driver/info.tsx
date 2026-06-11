@@ -76,13 +76,13 @@ const Info: FC = () => {
       gap: 2
     },
     topFull: {
-      fontSize: 14,
+      fontSize: 18,
       fontWeight: 580,
       color: "var(--dark-100)",
       textTransform: "capitalize"
     },
     topUser: {
-      fontSize: 10,
+      fontSize: 14,
       fontWeight: 500,
       color: "var(--dark-200)",
       textTransform: "lowercase"
@@ -203,8 +203,8 @@ const Info: FC = () => {
         </Box>
 
         <Box style={styles.topText}>
-          <Text style={styles.topFull}>Daniel Smith</Text>
-          <Text style={styles.topUser}>@danielsmith</Text>
+          <Text style={styles.topFull}>Bryant Orjiako</Text>
+          <Text style={styles.topUser}>@bryantorjiako</Text>
         </Box>
 
         <Box style={styles.topSpans}>

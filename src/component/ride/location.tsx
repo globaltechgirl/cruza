@@ -74,7 +74,7 @@ const Location: FC<LocationProps> = ({ isVisible = true, onStateChange }) => {
       zIndex: 1,
     },
     text: {
-      fontSize: 12,
+      fontSize: 14,
       fontWeight: 500,
       color: "var(--dark-200)",
       cursor: "pointer",
