@@ -424,7 +424,6 @@ const Navigate: FC<NavigateProps> = ({ isVisible = true }) => {
     // If we're on the Offer step and amount is valid, navigate to offers list
     if (activeIndex === 3) {
       try {
-        const amount = window.localStorage.getItem(STORAGE_KEYS.OFFER_AMOUNT) || "";
         // ensure offerComplete stored state is set (it should be updated via onStateChange)
         const stored = window.localStorage.getItem(STORAGE_KEYS.STEP_STATES);
         const parsed = stored ? JSON.parse(stored) : {};
