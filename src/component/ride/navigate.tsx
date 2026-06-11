@@ -139,9 +139,9 @@ const Navigate: FC<NavigateProps> = ({ isVisible = true }) => {
       gap: 15,
     },
     middleIcons: {
-      width: 28,
-      height: 28,
-      borderRadius: 8,
+      width: 40,
+      height: 40,
+      borderRadius: 10,
       backdropFilter: "blur(14px)",
       WebkitBackdropFilter: "blur(14px)",
       display: "flex",
@@ -153,8 +153,8 @@ const Navigate: FC<NavigateProps> = ({ isVisible = true }) => {
       transition: "all 0.2s ease",
     },
     middleIcon: {
-      width: 14,
-      height: 14,
+      width: 20,
+      height: 20,
       color: "var(--dark-200)",
     },
     middleDot: {
@@ -196,6 +196,35 @@ const Navigate: FC<NavigateProps> = ({ isVisible = true }) => {
       background: "rgba(255, 255, 255, 0.7)",
       backdropFilter: "blur(14px)",
       WebkitBackdropFilter: "blur(14px)",
+    },
+    footer: {
+      marginTop: 12,
+      display: "flex",
+      justifyContent: "space-between",
+      gap: 8,
+      paddingTop: 8,
+    },
+    btn: {
+      flex: 1,
+      padding: "10px 12px",
+      borderRadius: 10,
+      fontSize: 15,
+      fontWeight: 600,
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      gap: 8,
+      cursor: "pointer",
+      userSelect: "none",
+    },
+    btnPrimary: {
+      backgroundColor: "var(--dark-200)",
+      color: "var(--light-100)",
+    },
+    btnSecondary: {
+      backgroundColor: "transparent",
+      border: "1px solid rgba(0,0,0,0.06)",
+      color: "var(--dark-200)",
     },
   } as const;
   
@@ -335,18 +364,30 @@ const Navigate: FC<NavigateProps> = ({ isVisible = true }) => {
         }
       }
 
+      // allow going back to previous steps unless the ride has started or an offer was confirmed
       if (
         activeIndex !== null &&
         targetIndex < activeIndex
       ) {
-        return false;
+        if (stepStates.rideArrived || stepStates.offerConfirmed) {
+          return false;
+        }
+        return true;
       }
 
       switch (targetIndex) {
         case 1: return stepStates.locationComplete;
         case 2: return stepStates.scheduleComplete;
         case 3: return stepStates.uploadComplete;
-        case 4: return stepStates.offerConfirmed;
+        case 4:
+          // allow moving to Journey if an offer was confirmed, the offer step is complete,
+          // or the user rejected an offer (rideOfferRejected stored in localStorage)
+          try {
+            const rejected = typeof window !== "undefined" && window.localStorage.getItem("rideOfferRejected");
+            if (rejected === "true") return true;
+          } catch {}
+
+          return stepStates.offerConfirmed || stepStates.offerComplete;
         case 5: return stepStates.rideArrived;
         default: return false;
       }
@@ -362,6 +403,49 @@ const Navigate: FC<NavigateProps> = ({ isVisible = true }) => {
       setActiveIndex(null);
     }
   }, [activeIndex, canNavigateTo]);
+
+  const currentStepComplete = () => {
+    if (activeIndex === null) return false;
+
+    switch (activeIndex) {
+      case 0: return stepStates.locationComplete;
+      case 1: return stepStates.scheduleComplete;
+      case 2: return stepStates.uploadComplete;
+      case 3: return stepStates.offerComplete; // allow Next when offer amount meets minimum
+      case 4: return stepStates.rideArrived;
+      case 5: return stepStates.ratingComplete;
+      default: return false;
+    }
+  };
+
+  const goNext = () => {
+    if (activeIndex === null) return;
+    if (!currentStepComplete()) return;
+    // If we're on the Offer step and amount is valid, navigate to offers list
+    if (activeIndex === 3) {
+      try {
+        const amount = window.localStorage.getItem(STORAGE_KEYS.OFFER_AMOUNT) || "";
+        // ensure offerComplete stored state is set (it should be updated via onStateChange)
+        const stored = window.localStorage.getItem(STORAGE_KEYS.STEP_STATES);
+        const parsed = stored ? JSON.parse(stored) : {};
+        parsed.offerComplete = true;
+        window.localStorage.setItem(STORAGE_KEYS.STEP_STATES, JSON.stringify(parsed));
+      } catch {}
+
+      navigate(ROUTES.OFFERS);
+      return;
+    }
+
+    const next = Math.min(TOTAL_STEPS - 1, activeIndex + 1);
+    setActiveIndex(next);
+  };
+
+  const goBack = () => {
+    if (activeIndex === null) return;
+    if (stepStates.rideArrived || stepStates.offerConfirmed) return;
+    const prev = Math.max(0, activeIndex - 1);
+    setActiveIndex(prev);
+  };
 
 
   const handleStepClick = (index: number) => {
@@ -391,8 +475,8 @@ const Navigate: FC<NavigateProps> = ({ isVisible = true }) => {
     [],
   );
 
-  const iconSize = 28;
-  const gap = 32;
+  const iconSize = 40;
+  const gap = 36;
   const sidePadding = 16;
 
   const dotPosition =
@@ -519,6 +603,34 @@ const Navigate: FC<NavigateProps> = ({ isVisible = true }) => {
             );
           })}
         </motion.div>
+        {activeIndex !== null && (
+          <Box style={styles.footer}>
+            <Box
+              onClick={goBack}
+              style={{
+                ...styles.btn,
+                ...styles.btnSecondary,
+                opacity: activeIndex === 0 || stepStates.rideArrived ? 0.5 : 1,
+                cursor: activeIndex === 0 || stepStates.rideArrived ? "not-allowed" : "pointer",
+              }}
+            >
+              Back
+            </Box>
+
+            <Box
+              onClick={() => { if (currentStepComplete()) goNext(); }}
+              style={{
+                ...styles.btn,
+                ...styles.btnPrimary,
+                opacity: currentStepComplete() ? 1 : 0.6,
+                cursor: currentStepComplete() ? "pointer" : "not-allowed",
+              }}
+            >
+              <CheckIcon style={{ width: 16, height: 16 }} />
+              <span>{activeIndex === TOTAL_STEPS - 1 ? "Done" : "Next"}</span>
+            </Box>
+          </Box>
+        )}
       </motion.div>
     </motion.div>
   );

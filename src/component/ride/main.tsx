@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useState, useEffect } from "react";
 import { Box } from "@mantine/core";
 import { motion } from "framer-motion";
 import Navigator from "./navigate";
@@ -85,13 +85,13 @@ const Main: FC = () => {
       padding: 15,
     },
     value: {
-      padding: "3px 10px",
+      padding: "8px 12px",
       background: "rgba(229, 228, 226)",
       backdropFilter: "blur(14px)",
       WebkitBackdropFilter: "blur(14px)",
       border: "1px solid var(--dark-400)",
-      borderRadius: 14,
-      fontSize: 11,
+      borderRadius: 20,
+      fontSize: 14,
       fontWeight: 500,
       color: "var(--dark-200)",
       cursor: "pointer",
@@ -113,6 +113,7 @@ const Main: FC = () => {
       zIndex: 10,
       display: "flex",
       flexDirection: "column",
+      minHeight: "calc(var(--vh) * 33)",
     },
     blurOverlay: {
       position: "absolute",
@@ -135,6 +136,36 @@ const Main: FC = () => {
   const navigate = useNavigate();
 
   const [isOpen, setIsOpen] = useState(true);
+  const [rideStarted, setRideStarted] = useState(false);
+
+  // reflect ride started state saved by navigator
+  useEffect(() => {
+    try {
+      const raw = window.localStorage.getItem("rideStepStates");
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        setRideStarted(Boolean(parsed && parsed.rideArrived));
+      }
+    } catch {
+      setRideStarted(false);
+    }
+    const onStorage = () => {
+      try {
+        const raw = window.localStorage.getItem("rideStepStates");
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          setRideStarted(Boolean(parsed && parsed.rideArrived));
+        } else {
+          setRideStarted(false);
+        }
+      } catch {
+        setRideStarted(false);
+      }
+    };
+
+    window.addEventListener("storage", onStorage);
+    return () => window.removeEventListener("storage", onStorage);
+  }, []);
   
   return (
     <motion.div style={styles.container} variants={containerVariants} initial="hidden" animate="visible" onClick={() => setIsOpen((open) => !open)}>
@@ -150,8 +181,25 @@ const Main: FC = () => {
 
       <Box style={styles.uiLayer}>
         <Box style={styles.header}>
-          <Box style={styles.value} onClick={(event) => { event.stopPropagation(); navigate(ROUTES.HOME);  }}>
-            Cancel Ride
+          <Box
+            style={{
+              ...styles.value,
+              backgroundColor: rideStarted ? "rgba(255, 80, 80, 0.95)" : styles.value.background,
+              color: rideStarted ? "#fff" : styles.value.color,
+            }}
+            onClick={(event) => {
+              event.stopPropagation();
+              // cancel trip: clear ride-related storage and navigate home
+              try {
+                window.localStorage.removeItem("rideStepStates");
+                window.localStorage.removeItem("rideActiveIndex");
+                window.localStorage.removeItem("rideOfferAmount");
+                window.localStorage.removeItem("rideOfferConfirmed");
+              } catch {}
+              navigate(ROUTES.HOME);
+            }}
+          >
+            {rideStarted ? "Cancel Trip" : "Cancel Ride"}
           </Box>
         </Box>
 

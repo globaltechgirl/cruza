@@ -126,10 +126,12 @@ const Offers: FC<OffersProps> = ({ isVisible = true, onClose }) => {
       display: "flex",
       flexDirection: "column",
       alignItems: "center",
-      justifyContent: "center",
+      justifyContent: "flex-start",
       gap: 15,
       width: "100%",
-      height: "100%",
+      maxHeight: "calc(var(--vh) * 100 - 120px)",
+      overflowY: "auto",
+      paddingRight: 8,
       position: "relative",
       zIndex: 1,
     },
@@ -175,8 +177,8 @@ const Offers: FC<OffersProps> = ({ isVisible = true, onClose }) => {
       width: "100%",
     },
     initials: {
-      width: 45,
-      height: 45,
+      width: 55,
+      height: 55,
       backgroundColor: "var(--light-100)",
       border: "1px dashed var(--light-200)",
       borderRadius: 12,
@@ -203,7 +205,7 @@ const Offers: FC<OffersProps> = ({ isVisible = true, onClose }) => {
       justifyContent: "space-between",
     },
     title: {
-      fontSize: 12,
+      fontSize: 16,
       fontWeight: 500,
       color: "var(--dark-100)",
     },
@@ -219,12 +221,12 @@ const Offers: FC<OffersProps> = ({ isVisible = true, onClose }) => {
       height: 12,
     },
     span: {
-      fontSize: 11,
+      fontSize: 12,
       fontWeight: 500,
       textTransform: "lowercase",
     },
     text: {
-      fontSize: 11,
+      fontSize: 12,
       fontWeight: 500,
       color: "var(--dark-200)",
     },
@@ -247,7 +249,7 @@ const Offers: FC<OffersProps> = ({ isVisible = true, onClose }) => {
       width: "fit-content",
     },
     info: {
-      fontSize: 10,
+      fontSize: 12,
       fontWeight: 500,
       color: "var(--dark-200)",
     },
@@ -292,11 +294,14 @@ const Offers: FC<OffersProps> = ({ isVisible = true, onClose }) => {
 
       const stored = JSON.parse(localStorage.getItem("rideStepStates") || "{}");
       stored.offerConfirmed = true;
+      stored.offerComplete = true;
+      // advance active index to Journey (step 4)
+      localStorage.setItem("rideActiveIndex", String(4));
       localStorage.setItem("rideStepStates", JSON.stringify(stored));
 
       setTimeout(() => {
         setActivities((prev) => prev.filter((item) => item.id !== id));
-        navigate(ROUTES.RIDE); 
+        navigate(ROUTES.RIDE);
       }, 600);
     }
 
@@ -306,10 +311,15 @@ const Offers: FC<OffersProps> = ({ isVisible = true, onClose }) => {
 
       const stored = JSON.parse(localStorage.getItem("rideStepStates") || "{}");
       stored.offerConfirmed = false;
+      // mark the offer step handled and advance to the next step
+      stored.offerComplete = true;
+      localStorage.setItem("rideActiveIndex", String(4));
       localStorage.setItem("rideStepStates", JSON.stringify(stored));
 
       setTimeout(() => {
         setActivities((prev) => prev.filter((item) => item.id !== id));
+        // navigate back to the ride view and let the navigator pick up the active index
+        navigate(ROUTES.RIDE);
       }, 600);
     }
   };

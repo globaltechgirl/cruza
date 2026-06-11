@@ -277,6 +277,7 @@ const Offer: FC<OfferProps> = ({ isVisible = true, onStateChange }) => {
           </Text>
         )}
       </motion.div>
+        {/* Confirm/Reject moved: Next button will navigate to offers when amount is valid. */}
     </motion.div>
   );
 };
