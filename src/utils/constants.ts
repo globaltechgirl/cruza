@@ -14,4 +14,5 @@ export const ROUTES = {
   NOTIFY: "/notify",
   OFFERS: "/offers",
   CHAT: "/chat",
+  ONBOARDING: "/onboarding",
 };

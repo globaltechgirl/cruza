@@ -100,8 +100,8 @@ const Offers: FC<OffersProps> = ({ isVisible = true, onClose }) => {
       justifyContent: "flex-end",
     },
     iconsx: {
-      width: 22,
-      height: 22,
+      width: 24,
+      height: 24,
       borderRadius: "50%",
       backgroundColor: "var(--light-100)",
       border: "1px dashed var(--dark-300)",
@@ -111,8 +111,8 @@ const Offers: FC<OffersProps> = ({ isVisible = true, onClose }) => {
       cursor: "pointer",
     },
     iconx: {
-      width: 11,
-      height: 11,
+      width: 12,
+      height: 12,
       color: "var(--dark-200)",
     },
     body: {
@@ -131,7 +131,6 @@ const Offers: FC<OffersProps> = ({ isVisible = true, onClose }) => {
       width: "100%",
       maxHeight: "calc(var(--vh) * 100 - 120px)",
       overflowY: "auto",
-      paddingRight: 8,
       position: "relative",
       zIndex: 1,
     },
@@ -172,13 +171,13 @@ const Offers: FC<OffersProps> = ({ isVisible = true, onClose }) => {
       flexDirection: "column",
       alignItems: "flex-start",
       justifyContent: "flex-start",
-      gap: 2,
+      gap: 1,
       borderRadius: 8,
       width: "100%",
     },
     initials: {
-      width: 55,
-      height: 55,
+      width: 56,
+      height: 56,
       backgroundColor: "var(--light-100)",
       border: "1px dashed var(--light-200)",
       borderRadius: 12,
@@ -205,7 +204,7 @@ const Offers: FC<OffersProps> = ({ isVisible = true, onClose }) => {
       justifyContent: "space-between",
     },
     title: {
-      fontSize: 16,
+      fontSize: 14,
       fontWeight: 500,
       color: "var(--dark-100)",
     },
@@ -213,15 +212,15 @@ const Offers: FC<OffersProps> = ({ isVisible = true, onClose }) => {
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
-      gap: 5,
+      gap: 6,
       color: "var(--yellow-300)",
     },
     star: {
-      width: 12,
-      height: 12,
+      width: 13,
+      height: 13,
     },
     span: {
-      fontSize: 12,
+      fontSize: 13,
       fontWeight: 500,
       textTransform: "lowercase",
     },
@@ -243,7 +242,7 @@ const Offers: FC<OffersProps> = ({ isVisible = true, onClose }) => {
       borderRadius: 6,
       display: "flex",
       alignItems: "center",
-      gap: 5,
+      gap: 6,
       flexShrink: 0,
       padding: "2px 8px",
       width: "fit-content",
@@ -254,8 +253,8 @@ const Offers: FC<OffersProps> = ({ isVisible = true, onClose }) => {
       color: "var(--dark-200)",
     },
     iconb: {
-      width: 11,
-      height: 11,
+      width: 12,
+      height: 12,
       color: "var(--dark-200)",
     },
   } as const;
@@ -295,7 +294,6 @@ const Offers: FC<OffersProps> = ({ isVisible = true, onClose }) => {
       const stored = JSON.parse(localStorage.getItem("rideStepStates") || "{}");
       stored.offerConfirmed = true;
       stored.offerComplete = true;
-      // advance active index to Journey (step 4)
       localStorage.setItem("rideActiveIndex", String(4));
       localStorage.setItem("rideStepStates", JSON.stringify(stored));
 
@@ -311,7 +309,6 @@ const Offers: FC<OffersProps> = ({ isVisible = true, onClose }) => {
 
       const stored = JSON.parse(localStorage.getItem("rideStepStates") || "{}");
       stored.offerConfirmed = false;
-      // mark the offer step handled and advance to the next step
       stored.offerComplete = true;
       localStorage.setItem("rideActiveIndex", String(4));
       localStorage.setItem("rideStepStates", JSON.stringify(stored));

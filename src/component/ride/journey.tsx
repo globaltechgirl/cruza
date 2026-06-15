@@ -164,13 +164,13 @@ const Journey: FC<JourneyProps> = ({ isVisible = true, onStateChange }) => {
       display: "flex",
       flexDirection: "column",
       padding: 15,
-      gap: 20,
+      gap: 15,
     },
     main: {
       display: "flex",
       flexDirection: "column",
       alignItems: "flex-start",
-      gap: 12,
+      gap: 15,
     },
     flex: {
       width: "100%",
@@ -179,18 +179,18 @@ const Journey: FC<JourneyProps> = ({ isVisible = true, onStateChange }) => {
       justifyContent: "space-between",
     },
     text: {
-      fontSize: 12,
+      fontSize: 13,
       fontWeight: 500,
       color: "var(--dark-200)",
     },
     time: {
-      fontSize: 11,
+      fontSize: 12,
       fontWeight: 500,
       color: "var(--dark-200)",
     },
     scroll: {
       position: "relative",
-      height: 5,
+      height: 6,
       backgroundImage: "repeating-linear-gradient(-45deg, var(--light-200) 0, var(--light-200) 4px, var(--dark-400) 4px, var(--dark-400) 7px)",
       borderRadius: 6,
       border: "1px dashed var(--dark-400)",
@@ -249,8 +249,8 @@ const Journey: FC<JourneyProps> = ({ isVisible = true, onStateChange }) => {
       gap: 10,
     },
     initials: {
-      width: 45,
-      height: 45,
+      width: 46,
+      height: 46,
       backgroundColor: "var(--light-100)",
       border: "1px dashed var(--dark-300)",
       borderRadius: 12,
@@ -279,7 +279,7 @@ const Journey: FC<JourneyProps> = ({ isVisible = true, onStateChange }) => {
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
-      gap: 5,
+      gap: 6,
       color: "var(--yellow-300)",
     },
     icon: {
@@ -287,13 +287,13 @@ const Journey: FC<JourneyProps> = ({ isVisible = true, onStateChange }) => {
       height: 12,
     },
     span: {
-      fontSize: 11,
+      fontSize: 12,
       fontWeight: 500,
       textTransform: "lowercase",
     },
     rights: {
-      width: 22,
-      height: 22,
+      width: 24,
+      height: 24,
       borderRadius: "50%",
       backgroundColor: "var(--dark-300)",
       display: "flex",
@@ -301,8 +301,8 @@ const Journey: FC<JourneyProps> = ({ isVisible = true, onStateChange }) => {
       justifyContent: "center",
     },
     right: {
-      width: 10,
-      height: 10,
+      width: 12,
+      height: 12,
       color: "var(--dark-200)",
     },
   } as const;

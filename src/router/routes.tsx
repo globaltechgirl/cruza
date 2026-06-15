@@ -15,6 +15,7 @@ import Notify from "@/pages/notify";
 import Offers from "@/component/ride/offers";
 import Chat from "@/pages/chat";
 import Register from "@/pages/auth/register";
+import Onboarding from "@/pages/onboarding";
 
 const routes: RouteObject[] = [
   {
@@ -46,6 +47,7 @@ const routes: RouteObject[] = [
           { path: "notify", element: <Notify /> },
           { path: "offers", element: <Offers /> },
           { path: "chat", element: <Chat /> },
+          { path: "onboarding", element: <Onboarding /> },
         ],
       },
     ],

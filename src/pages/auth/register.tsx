@@ -1,21 +1,17 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useState } from "react";
 import { Box, Text } from "@mantine/core";
 import { motion } from "framer-motion";
 import MapImage from "@/assets/map.jpg";
 import Logo from "@/assets/logo.svg?react";
 import { IconArrowRight, IconEye, IconEyeOff } from "@tabler/icons-react";
 
-import CenterImg1 from "@/assets/icon.svg";
-import CenterImg2 from "@/assets/icon.svg";
-import CenterImg3 from "@/assets/icon.svg";
+import CenterImg1 from "@/assets/icon1.png";
 import GoogleIcon from "@/assets/icons/google";
 
 const ROUTES = {
   HOME: "/home",
   LOGIN: "/login"
 };
-
-const slides = [CenterImg1, CenterImg2, CenterImg3];
 
 const containerVariants = {
   hidden: {
@@ -53,16 +49,6 @@ const Register: FC<RegisterProps> = ({ isVisible = true }) => {
   const [email, setEmail] = useState("johndoe@gmail.com");
   const [password, setPassword] = useState("P@ssword123!");
   const [showPassword, setShowPassword] = useState(false);
-  
-  const [active, setActive] = useState(0);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setActive((prev) => (prev + 1) % slides.length);
-    }, 3000);
-
-    return () => clearInterval(interval);
-  }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -171,11 +157,12 @@ const Register: FC<RegisterProps> = ({ isVisible = true }) => {
       flexDirection: "column",
       alignItems: "center",
       justifyContent: "center",
-      gap: 30,
+      gap: 0,
+      marginBottom: -30,
     },
     images: {
-      width: 280,
-      height: 280,
+      width: 360,
+      height: 360,
     },
     image: {
       width: "100%",
@@ -373,21 +360,7 @@ const Register: FC<RegisterProps> = ({ isVisible = true }) => {
 
         <Box style={styles.content}>
           <motion.div style={styles.center} variants={itemVariants}>
-            <Box style={styles.images}><img src={slides[active]} alt="center" style={styles.image}/></Box>
-
-            <Box style={styles.dots}>
-              {slides.map((_, index) => (
-                <Box
-                  key={index}
-                  style={{
-                    ...styles.dot,
-                    ...(active === index
-                      ? styles.active
-                      : styles.inactive),
-                  }}
-                />
-              ))}
-            </Box>
+            <Box style={styles.images}><img src={CenterImg1} alt="center-img" style={styles.image}/></Box>
           </motion.div>
 
           <form onSubmit={handleSubmit} style={styles.form}>

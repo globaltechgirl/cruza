@@ -183,18 +183,18 @@ const Main: FC = () => {
       padding: 15,
     },
     logo: {
-      width: 35,
-      height: 35,
-      borderRadius: 6
+      width: 32,
+      height: 32,
+      borderRadius: 8
     },
     value: {
-      padding: "6px 12px",
+      padding: "4px 10px",
       background: "rgba(229, 228, 226)",
       backdropFilter: "blur(14px)",
       WebkitBackdropFilter: "blur(14px)",
       border: "1px solid var(--dark-400)",
       borderRadius: 20,
-      fontSize: 14,
+      fontSize: 13,
       fontWeight: 500,
       color: "var(--dark-200)",
       cursor: "pointer",
@@ -215,9 +215,9 @@ const Main: FC = () => {
       inset: 0,
       backdropFilter: "blur(14px)",
       WebkitBackdropFilter: "blur(14px)",
-      maskImage: `linear-gradient(to bottom, transparent 8%, black 18%, black 100%)`,
-      WebkitMaskImage: `linear-gradient(to bottom, transparent 8%, black 18%, black 100%)`,
-      background: `linear-gradient( to bottom, rgba(255,255,255,0.05) 8%, rgba(255,255,255,0.10) 8%, rgba(255,255,255,0.15) 100%)`,
+      maskImage: `linear-gradient(to bottom, transparent 6%, black 16%, black 100%)`,
+      WebkitMaskImage: `linear-gradient(to bottom, transparent 6%, black 16%, black 100%)`,
+      background: `linear-gradient( to bottom, rgba(255,255,255,0.05) 6%, rgba(255,255,255,0.10) 8%, rgba(255,255,255,0.15) 100%)`,
       zIndex: 0,
     },
     content: {

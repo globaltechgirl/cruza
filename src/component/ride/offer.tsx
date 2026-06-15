@@ -65,7 +65,7 @@ const Offer: FC<OfferProps> = ({ isVisible = true, onStateChange }) => {
       width: "100%",
     },
     title: {
-      fontSize: 12,
+      fontSize: 13,
       fontWeight: 500,
       color: "var(--dark-200)",
     },
@@ -73,15 +73,15 @@ const Offer: FC<OfferProps> = ({ isVisible = true, onStateChange }) => {
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
-      gap: 5,
+      gap: 6,
     },
     icon: {
-      width: 12,
-      height: 12,
+      width: 13,
+      height: 13,
       color: "var(--dark-200)",
     },
     text: {
-      fontSize: 11,
+      fontSize: 13,
       fontWeight: 500,
       color: "var(--dark-200)",
     },
@@ -104,32 +104,15 @@ const Offer: FC<OfferProps> = ({ isVisible = true, onStateChange }) => {
       textAlign: "center",
     },
     icons: {
-      width: 12,
-      height: 12,
+      width: 13,
+      height: 13,
       color: "var(--dark-200)",
     },
     confirm: {
-      fontSize: 11,
+      fontSize: 13,
       fontWeight: 500,
       color: "var(--dark-200)",
       textTransform: "uppercase",
-    },
-    buttonContainer: {
-      display: "flex",
-      gap: 10,
-      width: "100%",
-      justifyContent: "center",
-    },
-    button: {
-      flex: 1,
-      fontSize: 11,
-      fontWeight: 600,
-      padding: "10px 15px",
-      borderRadius: 8,
-      border: "none",
-      cursor: "pointer",
-      textTransform: "uppercase",
-      transition: "all 0.2s ease",
     },
   } as const;
 
@@ -245,7 +228,7 @@ const Offer: FC<OfferProps> = ({ isVisible = true, onStateChange }) => {
 
       <motion.div style={styles.main} variants={itemVariants}>
         {loading ? (
-          <Loader size="14" color="var(--dark-200)" />
+          <Loader size="16" color="var(--dark-200)" />
         ) : offerConfirmed || localIsConfirmed ? (
           <Box style={styles.row}>
             <CheckIcon style={styles.icons} />
@@ -277,7 +260,6 @@ const Offer: FC<OfferProps> = ({ isVisible = true, onStateChange }) => {
           </Text>
         )}
       </motion.div>
-        {/* Confirm/Reject moved: Next button will navigate to offers when amount is valid. */}
     </motion.div>
   );
 };

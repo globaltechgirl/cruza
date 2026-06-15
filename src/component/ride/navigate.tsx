@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "@/utils/constants";
 
+import { IconChevronLeft, IconChevronRight, IconCircleCheck } from "@tabler/icons-react";
 import MapIcon from "@/assets/icons/map";
 import ClockIcon from "@/assets/icons/clock";
 import CameraIcon from "@/assets/icons/camera";
@@ -198,33 +199,41 @@ const Navigate: FC<NavigateProps> = ({ isVisible = true }) => {
       WebkitBackdropFilter: "blur(14px)",
     },
     footer: {
-      marginTop: 12,
       display: "flex",
-      justifyContent: "space-between",
+      justifyContent: "center",
       gap: 8,
-      paddingTop: 8,
+      marginBottom: 10,
+      marginLeft: "auto"
     },
     btn: {
-      flex: 1,
-      padding: "10px 12px",
+      width: 30,
+      height: 25,
       borderRadius: 10,
-      fontSize: 15,
-      fontWeight: 600,
+      backdropFilter: "blur(14px)",
+      WebkitBackdropFilter: "blur(14px)",
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
-      gap: 8,
+      flexShrink: 0,
       cursor: "pointer",
-      userSelect: "none",
+      position: "relative",
+      transition: "all 0.2s ease",
     },
-    btnPrimary: {
-      backgroundColor: "var(--dark-200)",
-      color: "var(--light-100)",
+    btn1: {
+      backgroundColor: "rgba(255, 255, 255, 0.7)",
     },
-    btnSecondary: {
-      backgroundColor: "transparent",
-      border: "1px solid rgba(0,0,0,0.06)",
+    btn2: {
+      backgroundColor: "var(--dark-400)",
+    },
+    btnIcon1: {
+      width: 18,
+      height: 18,
       color: "var(--dark-200)",
+    },
+    btnIcon2: {
+      width: 16,
+      height: 16,
+      color: "var(--dark-100)",
     },
   } as const;
   
@@ -364,7 +373,6 @@ const Navigate: FC<NavigateProps> = ({ isVisible = true }) => {
         }
       }
 
-      // allow going back to previous steps unless the ride has started or an offer was confirmed
       if (
         activeIndex !== null &&
         targetIndex < activeIndex
@@ -380,12 +388,10 @@ const Navigate: FC<NavigateProps> = ({ isVisible = true }) => {
         case 2: return stepStates.scheduleComplete;
         case 3: return stepStates.uploadComplete;
         case 4:
-          // allow moving to Journey if an offer was confirmed, the offer step is complete,
-          // or the user rejected an offer (rideOfferRejected stored in localStorage)
           try {
             const rejected = typeof window !== "undefined" && window.localStorage.getItem("rideOfferRejected");
             if (rejected === "true") return true;
-          } catch {}
+          } catch { /* empty */ }
 
           return stepStates.offerConfirmed || stepStates.offerComplete;
         case 5: return stepStates.rideArrived;
@@ -411,7 +417,7 @@ const Navigate: FC<NavigateProps> = ({ isVisible = true }) => {
       case 0: return stepStates.locationComplete;
       case 1: return stepStates.scheduleComplete;
       case 2: return stepStates.uploadComplete;
-      case 3: return stepStates.offerComplete; // allow Next when offer amount meets minimum
+      case 3: return stepStates.offerComplete;
       case 4: return stepStates.rideArrived;
       case 5: return stepStates.ratingComplete;
       default: return false;
@@ -421,15 +427,13 @@ const Navigate: FC<NavigateProps> = ({ isVisible = true }) => {
   const goNext = () => {
     if (activeIndex === null) return;
     if (!currentStepComplete()) return;
-    // If we're on the Offer step and amount is valid, navigate to offers list
     if (activeIndex === 3) {
       try {
-        // ensure offerComplete stored state is set (it should be updated via onStateChange)
         const stored = window.localStorage.getItem(STORAGE_KEYS.STEP_STATES);
         const parsed = stored ? JSON.parse(stored) : {};
         parsed.offerComplete = true;
         window.localStorage.setItem(STORAGE_KEYS.STEP_STATES, JSON.stringify(parsed));
-      } catch {}
+      } catch { /* empty */ }
 
       navigate(ROUTES.OFFERS);
       return;
@@ -564,6 +568,38 @@ const Navigate: FC<NavigateProps> = ({ isVisible = true }) => {
     <motion.div style={styles.container} variants={containerVariants} initial="hidden" animate={isVisible ? "visible" : "hidden"} exit="exit">
       <AnimatePresence mode="wait">
         {activeIndex !== null && (
+          <Box style={styles.footer}>
+            <Box
+              onClick={goBack}
+              style={{
+                ...styles.btn,
+                ...styles.btn1,
+                opacity: activeIndex === 0 || stepStates.rideArrived ? 0.5 : 1,
+                cursor: activeIndex === 0 || stepStates.rideArrived ? "not-allowed" : "pointer",
+              }}
+            >
+              <IconChevronLeft stroke={2.5} style={styles.btnIcon1} />
+            </Box>
+
+            <Box
+              onClick={() => { if (currentStepComplete()) goNext(); }}
+              style={{
+                ...styles.btn,
+                ...styles.btn2,
+                opacity: currentStepComplete() ? 1 : 0.6,
+                cursor: currentStepComplete() ? "pointer" : "not-allowed",
+              }}
+            >
+              {activeIndex === TOTAL_STEPS - 1 ? (
+                <IconCircleCheck stroke={2.5} style={styles.btnIcon2} />
+              ) : (
+                <IconChevronRight stroke={2.5} style={{ ...styles.btnIcon1, color: "var(--light-100)" }} />
+              )}
+            </Box>
+          </Box>
+        )}
+
+        {activeIndex !== null && (
           <motion.div key={activeIndex} style={styles.content} variants={contentVariants} initial="hidden" animate="visible" exit="exit">
             <motion.div style={styles.contentBox}>{contentComponents[activeIndex]}</motion.div>
 
@@ -602,34 +638,6 @@ const Navigate: FC<NavigateProps> = ({ isVisible = true }) => {
             );
           })}
         </motion.div>
-        {activeIndex !== null && (
-          <Box style={styles.footer}>
-            <Box
-              onClick={goBack}
-              style={{
-                ...styles.btn,
-                ...styles.btnSecondary,
-                opacity: activeIndex === 0 || stepStates.rideArrived ? 0.5 : 1,
-                cursor: activeIndex === 0 || stepStates.rideArrived ? "not-allowed" : "pointer",
-              }}
-            >
-              Back
-            </Box>
-
-            <Box
-              onClick={() => { if (currentStepComplete()) goNext(); }}
-              style={{
-                ...styles.btn,
-                ...styles.btnPrimary,
-                opacity: currentStepComplete() ? 1 : 0.6,
-                cursor: currentStepComplete() ? "pointer" : "not-allowed",
-              }}
-            >
-              <CheckIcon style={{ width: 16, height: 16 }} />
-              <span>{activeIndex === TOTAL_STEPS - 1 ? "Done" : "Next"}</span>
-            </Box>
-          </Box>
-        )}
       </motion.div>
     </motion.div>
   );

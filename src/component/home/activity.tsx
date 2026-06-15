@@ -61,8 +61,8 @@ const Activity: FC<ActivityProps> = ({ isVisible = true }) => {
       gap: 18,
     },
     initials: {
-      width: 65,
-      height: 65,
+      width: 66,
+      height: 66,
       backgroundColor: "var(--light-100)",
       border: "1px dashed var(--dark-300)",
       borderRadius: "50%",
@@ -86,16 +86,16 @@ const Activity: FC<ActivityProps> = ({ isVisible = true }) => {
       display: "flex",
       flexDirection: "column",
       alignItems: "center",
-      gap: 3,
+      gap: 4,
     },
     title: {
-      fontSize: 18,
+      fontSize: 16,
       fontWeight: 500,
       color: "var(--dark-100)",
       textTransform: "capitalize"
     },
     subtitle: {
-      fontSize: 14,
+      fontSize: 13,
       fontWeight: 500,
       color: "var(--dark-200)",
       textTransform: "lowercase"
@@ -104,9 +104,9 @@ const Activity: FC<ActivityProps> = ({ isVisible = true }) => {
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
-      gap: 40,
+      gap: 35,
       width: "100%",
-      marginTop: 3,
+      marginTop: 2,
     },
     span: {
       display: "flex",
@@ -120,11 +120,10 @@ const Activity: FC<ActivityProps> = ({ isVisible = true }) => {
       color: "var(--dark-100)",
     },
     label: {
-      fontSize: 11,
+      fontSize: 12,
       fontWeight: 500,
       color: "var(--dark-200)",
       textTransform: "capitalize",
-      marginBottom: 1.5,
     },
     middle: {
       width: "100%",
@@ -148,7 +147,7 @@ const Activity: FC<ActivityProps> = ({ isVisible = true }) => {
     top: {
       display: "flex",
       alignItems: "center",
-      gap: 8,
+      gap: 10,
     },
     icons: {
       width: 20,
@@ -166,7 +165,7 @@ const Activity: FC<ActivityProps> = ({ isVisible = true }) => {
       color: "var(--dark-200)",
     },
     text: {
-      fontSize: 11,
+      fontSize: 12,
       fontWeight: 500,
       color: "var(--dark-100)",
     },
@@ -189,7 +188,7 @@ const Activity: FC<ActivityProps> = ({ isVisible = true }) => {
       backgroundColor: "var(--dark-200)",
     },
     info: {
-      fontSize: 10,
+      fontSize: 12,
       fontWeight: 500,
       color: "var(--dark-200)",
       lineHeight: 1.4,
@@ -202,7 +201,7 @@ const Activity: FC<ActivityProps> = ({ isVisible = true }) => {
       background: "rgba(102, 102, 102)",
       backdropFilter: "blur(14px)",
       WebkitBackdropFilter: "blur(14px)",
-      fontSize: 16,
+      fontSize: 14,
       fontWeight: 500,
       color: "var(--light-100)",
       textAlign: "center",

@@ -1,10 +1,11 @@
 import { FC, useEffect, useRef, useState } from "react";
 import { Box, Image, Select, Text } from "@mantine/core";
 import { motion } from "framer-motion";
-import {  IconMenu4, IconX } from "@tabler/icons-react";
+import { ROUTES } from "@/utils/constants";
+import { useNavigate } from "react-router-dom";
+import { IconMenu4, IconX } from "@tabler/icons-react";
 import UserImg from "@/assets/user.jpg";
 import CameraIcon from "@/assets/icons/camera";
-
 const containerVariants = {
   hidden: {
     opacity: 0,
@@ -68,9 +69,11 @@ interface ProfileProps {
 }
 
 const Profile: FC<ProfileProps> = ({ isVisible = true }) => {
+  const navigate = useNavigate();
   const [animKey, setAnimKey] = useState(0);
   const [isEditing, setIsEditing] = useState(false);
   const [isReadOpen, setIsReadOpen] = useState(false);
+  const [isDriverOpen, setIsDriverOpen] = useState(false); 
 
   const [name, setName] = useState("Daniel Smith");
   const [email, setEmail] = useState("danielsmith@gmail.com");
@@ -149,8 +152,8 @@ const Profile: FC<ProfileProps> = ({ isVisible = true }) => {
       justifyContent: "center",
     },
     icon: {
-      width: 20,
-      height: 20,
+      width: 14,
+      height: 14,
       color: "var(--dark-200)",
     },
     menus: {
@@ -158,13 +161,12 @@ const Profile: FC<ProfileProps> = ({ isVisible = true }) => {
     },
     menu: {
       position: "absolute",
-      top: 28,
+      top: 34,
       left: 0,
       width: 130,
-      padding: 4,
       display: "flex",
       flexDirection: "column",
-      gap: 10,
+      gap: 8,
       zIndex: 100,
     },
     logout: {
@@ -174,7 +176,7 @@ const Profile: FC<ProfileProps> = ({ isVisible = true }) => {
       WebkitBackdropFilter: "blur(14px)",
       border: "1px solid var(--light-100)",
       borderRadius: 14,
-      fontSize: 11,
+      fontSize: 12,
       fontWeight: 500,
       color: "var(--dark-200)",
       cursor: "pointer",
@@ -187,7 +189,7 @@ const Profile: FC<ProfileProps> = ({ isVisible = true }) => {
       WebkitBackdropFilter: "blur(14px)",
       border: "1px solid var(--light-100)",
       borderRadius: 14,
-      fontSize: 11,
+      fontSize: 12,
       fontWeight: 500,
       color: "var(--red-300)",
       cursor: "pointer",
@@ -220,15 +222,16 @@ const Profile: FC<ProfileProps> = ({ isVisible = true }) => {
       width: "100%",
     },
     initials: {
-      width: 70,
-      height: 70,
+      position: "relative",
+      width: 66,
+      height: 66,
       backgroundColor: "var(--light-100)",
       border: "1px dashed var(--dark-300)",
       borderRadius: "50%",
       padding: 2,
       display: "flex",
       alignItems: "center",
-      position: "relative",
+      margin: "0 auto",
     },
     initial: {
       width: "100%",
@@ -243,8 +246,8 @@ const Profile: FC<ProfileProps> = ({ isVisible = true }) => {
     },
     edits: {
       position: "absolute",
-      right: 0,
-      bottom: 0,
+      right: -2,
+      bottom: -2,
       width: 18,
       height: 18,
       borderRadius: "50%",
@@ -257,24 +260,25 @@ const Profile: FC<ProfileProps> = ({ isVisible = true }) => {
       zIndex: 3,
     },
     edit: {
-      width: 10.5,
-      height: 10.5,
+      width: 12,
+      height: 12,
       color: "var(--dark-200)",
     },
     titles: {
       display: "flex",
       flexDirection: "column",
       alignItems: "center",
-      gap: 2,
+      gap: 1,
+      margin: "5px 0",
     },
     title: {
-      fontSize: 18,
+      fontSize: 15,
       fontWeight: 500,
       color: "var(--dark-100)",
       textTransform: "capitalize",
     },
     subtitle: {
-      fontSize: 12,
+      fontSize: 13,
       fontWeight: 500,
       color: "var(--dark-200)",
       textTransform: "lowercase",
@@ -284,7 +288,7 @@ const Profile: FC<ProfileProps> = ({ isVisible = true }) => {
       flexDirection: "column",
       alignItems: "center",
       justifyContent: "center",
-      gap: 0,
+      gap: 10,
     },
     wrappers: {
       width: "100%",
@@ -294,12 +298,11 @@ const Profile: FC<ProfileProps> = ({ isVisible = true }) => {
       background: "rgba(255, 255, 255, 0.15)",
       backdropFilter: "blur(14px)",
       WebkitBackdropFilter: "blur(14px)",
-      marginTop: 10,
     },
     wrapper: {
       width: "100%",
-      borderRadius: 8,
-      padding: 10,
+      borderRadius: 10,
+      padding: 15,
       background: "rgba(255, 255, 255, 0.25)",
       display: "flex",
       flexDirection: "column",
@@ -312,13 +315,13 @@ const Profile: FC<ProfileProps> = ({ isVisible = true }) => {
       width: "100%",
       gap: 6,
     },
-    value: {
-      fontSize: 14,
+    label: {
+      fontSize: 13,
       fontWeight: 500,
       color: "var(--dark-100)",
     },
-    label: {
-      fontSize: 14,
+    value: {
+      fontSize: 13,
       fontWeight: 500,
       color: "var(--dark-200)",
     },
@@ -326,7 +329,7 @@ const Profile: FC<ProfileProps> = ({ isVisible = true }) => {
       background: "transparent",
       border: "none",
       outline: "none",
-      fontSize: 12,
+      fontSize: 13,
       fontWeight: 500,
       color: "var(--dark-200)",
       padding: 0,
@@ -349,7 +352,7 @@ const Profile: FC<ProfileProps> = ({ isVisible = true }) => {
       border: "1px solid var(--light-100)",
       cursor: "pointer",
       color: "var(--dark-200)",
-      fontSize: 11,
+      fontSize: 12,
       fontWeight: 500,
       textTransform: "lowercase"
     },
@@ -365,7 +368,7 @@ const Profile: FC<ProfileProps> = ({ isVisible = true }) => {
         background: "transparent",
         border: "none",
         outline: "none",
-        fontSize: 12,
+        fontSize: 13,
         fontWeight: 500,
         color: "var(--dark-200)",
         textAlign: "right",
@@ -381,12 +384,29 @@ const Profile: FC<ProfileProps> = ({ isVisible = true }) => {
         padding: 2,
       },
       option: {
-        fontSize: 12,
+        fontSize: 13,
         fontWeight: 500,
         color: "var(--dark-200)",
         padding: "5px 10px",
         borderRadius: 8,
       },
+    },
+    modes: {
+      width: "100%",
+      border: "1px solid var(--light-100)",
+      borderRadius: 12,
+      padding: 2,
+      background: "rgba(255, 255, 255, 0.15)",
+      backdropFilter: "blur(14px)",
+      WebkitBackdropFilter: "blur(14px)",
+    },
+    mode: {
+      width: "100%",
+      borderRadius: 10,
+      padding: "12px 15px",
+      background: "rgba(255, 255, 255, 0.25)",
+      display: "flex",
+      flexDirection: "column",
     },
   } as const;
 
@@ -445,12 +465,15 @@ const Profile: FC<ProfileProps> = ({ isVisible = true }) => {
             if (isReadOpen) {
               setIsReadOpen(false);
               setAnimKey(prev => prev + 1);
+            } else if (isDriverOpen) {
+              setIsDriverOpen(false);
+              setAnimKey(prev => prev + 1);
             } else {
               setIsEditing((prev) => !prev);
             }
           }}
         >
-          {isReadOpen ? (
+          {isReadOpen || isDriverOpen ? (
             <Box style={styles.nav1}>
               <IconX style={styles.iconx} />
             </Box>
@@ -460,38 +483,52 @@ const Profile: FC<ProfileProps> = ({ isVisible = true }) => {
         </Box>
       </motion.div>
 
-      <Box style={styles.info}>
-        <motion.div style={styles.initials} variants={itemVariants}>
-          <Image src={profileSrc} alt="Profile" style={styles.initial} />
-          {isEditing && (
-            <>
-              <input
-                ref={fileInputRef}
-                type="file"
-                accept="image/*"
-                style={{ display: "none" }}
-                onChange={handleImageChange}
-              />
-              <Box style={styles.edits} onClick={() => fileInputRef.current?.click()}>
-                <CameraIcon style={styles.edit} />
-              </Box>
-            </>
-          )}
-        </motion.div>
+      {!isReadOpen && !isDriverOpen && (
+        <Box style={styles.info}>
+          <motion.div style={styles.initials} variants={itemVariants}>
+            <Image 
+              src={profileSrc} 
+              alt="Profile" 
+              style={{ 
+                ...styles.initial, 
+                cursor: isEditing ? "pointer" : "default" 
+              }} 
+              onClick={() => {
+                if (isEditing) {
+                  fileInputRef.current?.click();
+                }
+              }}
+            />
+            {isEditing && (
+              <>
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/*"
+                  style={{ display: "none" }}
+                  onChange={handleImageChange}
+                />
+                <Box style={styles.edits} onClick={() => fileInputRef.current?.click()}>
+                  <CameraIcon style={styles.edit} />
+                </Box>
+              </>
+            )}
+          </motion.div>
 
-        <motion.div style={styles.titles} variants={itemVariants}>
-          <Text style={styles.title}>{name}</Text>
-          <Text style={styles.subtitle}>@danielsmith</Text>
-        </motion.div>
-      </Box>
+          <motion.div style={styles.titles} variants={itemVariants}>
+            <Text style={styles.title}>{name}</Text>
+            <Text style={styles.subtitle}>@danielsmith</Text>
+          </motion.div>
+        </Box>
+      )}
 
       <Box style={styles.body}>
-        {!isReadOpen && (
+        {!isReadOpen && !isDriverOpen && (
           <>
             <motion.div style={styles.wrappers} variants={itemVariants}>
               <Box style={styles.wrapper}>
                 <Box style={styles.row}>
-                  <Text style={styles.value}>Name</Text>
+                  <Text style={styles.label}>Name</Text>
                   {isEditing ? (
                     <input
                       value={name}
@@ -500,42 +537,40 @@ const Profile: FC<ProfileProps> = ({ isVisible = true }) => {
                       autoFocus
                     />
                   ) : (
-                    <Text style={styles.label}>{name}</Text>
+                    <Text style={styles.value}>{name}</Text>
                   )}
                 </Box>
 
                 <Box style={styles.row}>
-                  <Text style={styles.value}>Email</Text>
+                  <Text style={styles.label}>Email</Text>
                   {isEditing ? (
                     <input
                       value={email}
                       onChange={(e) => setEmail(e.currentTarget.value)}
                       style={styles.input}
-                      autoFocus
                     />
                   ) : (
-                    <Text style={{ ...styles.label, textTransform: "lowercase" }}>
+                    <Text style={{ ...styles.value, textTransform: "lowercase" }}>
                       {email}
                     </Text>
                   )}
                 </Box>
 
                 <Box style={styles.row}>
-                  <Text style={styles.value}>Phone</Text>
+                  <Text style={styles.label}>Phone</Text>
                   {isEditing ? (
                     <input
                       value={phone}
                       onChange={(e) => setPhone(e.currentTarget.value)}
                       style={styles.input}
-                      autoFocus
                     />
                   ) : (
-                    <Text style={styles.label}>{phone}</Text>
+                    <Text style={styles.value}>{phone}</Text>
                   )}
                 </Box>
 
                 <Box style={styles.row}>
-                  <Text style={styles.value}>Gender</Text>
+                  <Text style={styles.label}>Gender</Text>
                   {isEditing ? (
                     <Select
                       data={["Male", "Female"]}
@@ -544,49 +579,46 @@ const Profile: FC<ProfileProps> = ({ isVisible = true }) => {
                       styles={styles.selectStyles}
                     />
                   ) : (
-                    <Text style={styles.label}>{gender}</Text>
+                    <Text style={styles.value}>{gender}</Text>
                   )}
                 </Box>
 
                 <Box style={styles.row}>
-                  <Text style={styles.value}>Location</Text>
+                  <Text style={styles.label}>Location</Text>
                   {isEditing ? (
                     <input
                       value={location}
                       onChange={(e) => setLocation(e.currentTarget.value)}
                       style={styles.input}
-                      autoFocus
                     />
                   ) : (
-                    <Text style={styles.label}>{location}</Text>
+                    <Text style={styles.value}>{location}</Text>
                   )}
                 </Box>
 
                 <Box style={styles.row}>
-                  <Text style={styles.value}>University</Text>
+                  <Text style={styles.label}>University</Text>
                   {isEditing ? (
                     <input
                       value={university}
                       onChange={(e) => setUniversity(e.currentTarget.value)}
                       style={styles.input}
-                      autoFocus
                     />
                   ) : (
-                    <Text style={styles.label}>{university}</Text>
+                    <Text style={styles.value}>{university}</Text>
                   )}
                 </Box>
 
                 <Box style={styles.row}>
-                  <Text style={styles.value}>Student ID</Text>
+                  <Text style={styles.label}>Student ID</Text>
                   {isEditing ? (
                     <input
                       value={studentId}
                       onChange={(e) => setStudentId(e.currentTarget.value)}
                       style={styles.input}
-                      autoFocus
                     />
                   ) : (
-                    <Text style={styles.label}>{studentId}</Text>
+                    <Text style={styles.value}>{studentId}</Text>
                   )}
                 </Box>
               </Box>
@@ -595,12 +627,12 @@ const Profile: FC<ProfileProps> = ({ isVisible = true }) => {
             <motion.div style={styles.wrappers} variants={itemVariants}>
               <Box style={styles.wrapper}>
                 <Box style={styles.row}>
-                  <Text style={styles.value}>Legal Documents</Text>
+                  <Text style={styles.label}>Legal Documents</Text>
                   <Box
                     style={styles.read}
                     onClick={() => { setIsReadOpen(true); setIsEditing(false); }}
                   >
-                    <Text style={styles.label}>Read File</Text>
+                    <Text style={styles.value}>Read File</Text>
                   </Box>
                 </Box>
               </Box>
@@ -613,12 +645,20 @@ const Profile: FC<ProfileProps> = ({ isVisible = true }) => {
             <Box style={styles.wrapper}>
               {legalDocs.map((doc) => (
                 <Box key={doc.title} style={styles.box}>
-                  <Text style={styles.value}>{doc.title}</Text>
-                  <Text style={{ ...styles.label, lineHeight: 1.8, textAlign: "justify", }}>
+                  <Text style={styles.label}>{doc.title}</Text>
+                  <Text style={{ ...styles.value, lineHeight: 1.8, textAlign: "justify", }}>
                     {doc.content}
                   </Text>
                 </Box>
               ))}
+            </Box>
+          </Box>
+        )}
+
+        {!isReadOpen && (
+          <Box style={styles.modes} onClick={() => navigate(ROUTES.ONBOARDING)}>
+            <Box style={styles.mode}>
+              <Text style={styles.label}>Driver Mode</Text>
             </Box>
           </Box>
         )}

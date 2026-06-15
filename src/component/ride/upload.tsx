@@ -70,8 +70,8 @@ const Upload: FC<UploadProps> = ({ isVisible = true, onStateChange }) => {
       justifyContent: "center",
     },
     initials: {
-      width: 65,
-      height: 65,
+      width: 66,
+      height: 66,
       backgroundColor: "var(--light-100)",
       border: "1px dashed var(--dark-300)",
       borderRadius: 12,

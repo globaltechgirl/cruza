@@ -16,7 +16,7 @@ const Scheduler: FC<Props> = ({ onChange }) => {
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
-      gap: 10,
+      gap: 12,
     },
     boxs: {
       width: "100%",
@@ -36,8 +36,8 @@ const Scheduler: FC<Props> = ({ onChange }) => {
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
-      gap: 5,
-      fontSize: 11,
+      gap: 6,
+      fontSize: 12,
       fontWeight: 500,
       color: "var(--dark-200)",
       padding: 6,
@@ -45,7 +45,7 @@ const Scheduler: FC<Props> = ({ onChange }) => {
     selector: {
       display: "flex",
       flexDirection: "column",
-      gap: 20,
+      gap: 15,
     },
     select: {
       display: "flex",
@@ -63,7 +63,7 @@ const Scheduler: FC<Props> = ({ onChange }) => {
       gap: 6,
     },
     title: {
-      fontSize: 11,
+      fontSize: 13,
       fontWeight: 500,
       color: "var(--dark-200)",
     },
@@ -75,18 +75,18 @@ const Scheduler: FC<Props> = ({ onChange }) => {
       textAlign: "center",
     },
     text: {
-      fontSize: 11,
+      fontSize: 13,
       fontWeight: 500,
       color: "var(--dark-200)",
     },
     span: {
-      fontSize: 11,
+      fontSize: 13,
       fontWeight: 500,
       color: "var(--dark-200)",
     },
     active: {
       backgroundColor: "var(--light-200)",
-      padding: "2px 5px",
+      padding: "2px 6px",
       borderRadius: 6,
       color: "var(--dark-200)",
     },
