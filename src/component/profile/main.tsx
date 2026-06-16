@@ -119,6 +119,7 @@ const Profile: FC<ProfileProps> = ({ isVisible = true }) => {
       overflowY: "auto",      
       scrollbarWidth: "none",   
       msOverflowStyle: "none",  
+      overflow: "hidden",
       position: "relative",
       background: "linear-gradient(135deg, var(--light-200) 0%, var(--light-200) 50%, var(--light-200) 100%)",
     },
@@ -268,7 +269,7 @@ const Profile: FC<ProfileProps> = ({ isVisible = true }) => {
       display: "flex",
       flexDirection: "column",
       alignItems: "center",
-      gap: 1,
+      gap: 2,
       margin: "5px 0",
     },
     title: {
@@ -388,7 +389,7 @@ const Profile: FC<ProfileProps> = ({ isVisible = true }) => {
         fontWeight: 500,
         color: "var(--dark-200)",
         padding: "5px 10px",
-        borderRadius: 8,
+        borderRadius: 10,
       },
     },
     modes: {

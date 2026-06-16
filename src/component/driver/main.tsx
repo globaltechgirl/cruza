@@ -17,7 +17,7 @@ const Main: FC = () => {
       position: "relative",
       background: "linear-gradient(135deg, var(--light-200) 0%, var(--light-200) 50%, var(--light-200) 100%)",
     },
-    noiseOverlay: {
+    noise: {
       position: "absolute",
       top: 0,
       left: 0,
@@ -46,7 +46,7 @@ const Main: FC = () => {
         </filter>
       </svg>
 
-      <Box style={styles.noiseOverlay} />
+      <Box style={styles.noise} />
 
       <Info />
 

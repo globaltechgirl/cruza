@@ -131,7 +131,7 @@ const Navigate: FC<NavigateProps> = ({ isVisible = true }) => {
     },
     middleBox: {
       width: "100%",
-      borderRadius: 8,
+      borderRadius: 10,
       padding: "8px 15px 5px 15px",
       background: "rgba(255, 255, 255, 0.15)",
       display: "flex",
@@ -182,7 +182,7 @@ const Navigate: FC<NavigateProps> = ({ isVisible = true }) => {
     },
     contentBox: {
       width: "100%",
-      borderRadius: 8,
+      borderRadius: 10,
       background: "rgba(255, 255, 255, 0.7)",
       backdropFilter: "blur(14px)",
       WebkitBackdropFilter: "blur(14px)",

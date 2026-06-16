@@ -1,5 +1,6 @@
 import { FC, useEffect, useRef, useState } from "react";
 import { Box, Text } from "@mantine/core";
+import { motion } from "framer-motion";
 import { IconCircleFilled, IconX } from "@tabler/icons-react";
 import ProfileImg from "@/assets/user.jpg";
 import MapImage from "@/assets/map.jpg";
@@ -7,11 +8,40 @@ import CarIcon from "@/assets/icons/car";
 import StarIcon from "@/assets/icons/star";
 import CaptureIcon from "@/assets/icons/capture";
 
+const containerVariants = {
+  hidden: {
+    transition: {
+      staggerChildren: 0.1,
+      staggerDirection: -1,
+    },
+  },
+  visible: {
+    transition: {
+      staggerChildren: 0.1,
+      delayChildren: 0.15,
+    },
+  },
+};
+
+const itemVariants = {
+  hidden: {
+    opacity: 0,
+    y: 20,
+    transition: { duration: 0.3 },
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.35 },
+  },
+};
+
 type Props = {
+  isVisible?: boolean;
   onClose: () => void;
 };
 
-const Activity: FC<Props> = ({ onClose }) => {
+const Map: FC<Props> = ({ isVisible = true, onClose }) => {
   const [progress, setProgress] = useState(0);
   const [iconReached, setIconReached] = useState(false);
   const [rideStatus, setRideStatus] = useState("started");
@@ -73,7 +103,7 @@ const Activity: FC<Props> = ({ onClose }) => {
       return (
         <StarIcon
           key={i}
-          style={filled ? styles.reviewIcons : styles.reviewIcon}
+          style={filled ? styles.reviews : styles.review}
         />
       );
     });
@@ -90,7 +120,7 @@ const Activity: FC<Props> = ({ onClose }) => {
       background:
         "linear-gradient(135deg, var(--light-200) 0%, var(--light-200) 50%, var(--light-200) 100%)",
     },
-    noiseOverlay: {
+    noise: {
       position: "absolute",
       top: 0,
       left: 0,
@@ -114,14 +144,14 @@ const Activity: FC<Props> = ({ onClose }) => {
       zIndex: 1,
     },
     top: {
+      width: "100%",
       display: "flex",
-      alignItems: "flex-start",
-      justifyContent: "space-between",
-      position: "relative",
+      alignItems: "flex-end",
+      justifyContent: "flex-end",
     },
-    topIcons: {
-      width: 22,
-      height: 22,
+    icons: {
+      width: 24,
+      height: 24,
       borderRadius: "50%",
       backgroundColor: "var(--light-100)",
       border: "1px dashed var(--dark-300)",
@@ -130,9 +160,9 @@ const Activity: FC<Props> = ({ onClose }) => {
       justifyContent: "center",
       cursor: "pointer",
     },
-    topIcon: {
-      width: 11,
-      height: 11,
+    icon: {
+      width: 12,
+      height: 12,
       color: "var(--dark-200)",
     },
     middle: {
@@ -142,17 +172,19 @@ const Activity: FC<Props> = ({ onClose }) => {
       gap: 15,
       width: "100%"
     },
-    middleImage: {
-      width: 50,
-      height: 50,
+    initials: {
+      position: "relative",
+      width: 56,
+      height: 56,
       backgroundColor: "var(--light-100)",
       border: "1px dashed var(--dark-300)",
       borderRadius: "50%",
       padding: 2,
-      display: "flex",  
+      display: "flex",
       alignItems: "center",
+      margin: "0 auto",
     },
-    middleImg: {
+    initial: {
       width: "100%",
       height: "100%",
       backgroundColor: "var(--light-200)",
@@ -161,69 +193,69 @@ const Activity: FC<Props> = ({ onClose }) => {
       alignItems: "center",
       justifyContent: "center",
       objectFit: "cover",
-      objectPosition: "top"
+      objectPosition: "top",
     },
-    middleTexts: {
+    titles: {
       display: "flex",
       flexDirection: "column",
       alignItems: "center",
-      gap: 2
+      gap: 2,
     },
-    middleTitle: {
-      fontSize: 13,
-      fontWeight: 550,
+    title: {
+      fontSize: 15,
+      fontWeight: 500,
       color: "var(--dark-100)",
-      textTransform: "capitalize"
+      textTransform: "capitalize",
     },
-    middleText: {
-      fontSize: 11,
-      fontWeight: 550,
+    subtitle: {
+      fontSize: 13,
+      fontWeight: 500,
       color: "var(--dark-200)",
-      textTransform: "lowercase"
+      textTransform: "lowercase",
     },
-    middleScroller: {
+    scroller: {
       display: "flex",
       flexDirection: "column",
       alignItems: "center",
-      gap: 12,
-      width: "80%"
+      gap: 15,
+      width: "90%"
     },
-    middleScroll: {
+    scroll: {
       position: "relative",
-      height: 10,
-      backgroundImage: "repeating-linear-gradient(-45deg, var(--light-200) 0, var(--light-200) 6px, var(--dark-400) 6px, var(--dark-400) 10px)",
+      height: 8,
+      backgroundImage: "repeating-linear-gradient(-45deg, var(--light-200) 0, var(--light-200) 4px, var(--dark-400) 4px, var(--dark-400) 7px)",
       borderRadius: 6,
       border: "1px dashed var(--dark-400)",
-      marginTop: 5,
-      width: "100%"
+      width: "100%",
+      marginTop: 5
     },
-    carIcons: {
+    icons1: {
       position: "absolute",
-      top: -3,
-      left: 0, 
+      top: -3.5,
+      left: -10,
       width: 20,
-      height: 15,
+      height: 12,
       border: "1px solid var(--dark-400)",
       backgroundColor: "var(--light-100)",
       borderRadius: 12,
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
-      transition: "transform 0.1s linear", 
-      transform: `translateX(${iconPos}px)`, 
+      transition: "transform 0.1s linear",
+      transform: `translateX(${iconPos}px)`,
       zIndex: 2,
     },
-    carIcon: { 
-      width: 10,
-      height: 10,
+    icon1: {
+      width: 11,
+      height: 11,
       color: "var(--dark-200)",
     },
-    circleIcons: { 
-      position: "absolute", 
-      top: -3,
-      right: -2, 
-      width: 14,
-      height: 14,
+    icons2: {
+      position: "absolute",
+      top: -2.5,
+      right: -2,
+      width: 11,
+      height: 11,
       border: "1px solid var(--dark-400)",
       backgroundColor: "var(--light-100)",
       borderRadius: "50%",
@@ -232,154 +264,104 @@ const Activity: FC<Props> = ({ onClose }) => {
       alignItems: "center",
       zIndex: 1,
     },
-    circleIcon: { 
-      width: 10,
-      height: 10,
-      color: "var(--dark-400)",
+    icon2: {
+      width: 11,
+      height: 11,
+      color: "var(--dark-300)",
     },
-    middleSpan: {
-      fontSize: 11,
-      fontWeight: 550,
+    spans: {
+      fontSize: 13,
+      fontWeight: 500,
       color: "var(--dark-200)",
+      textTransform: "lowercase",
     },
-    middleSpans: {
+    span: {
       color: "var(--dark-100)",
     },
     bottom: {
       display: "flex",
       flexDirection: "column",
       alignItems: "center",
-      gap: 20,
+      gap: 15,
     },
-    map: {
+    maps: {
       width: "100%",
       border: "1px solid var(--light-100)",
-      borderRadius: 25,
+      borderRadius: 12,
       padding: 2,
       background: "rgba(255, 255, 255, 0.15)",
       backdropFilter: "blur(14px)",
       WebkitBackdropFilter: "blur(14px)",
       position: "relative",
     },
-    maps: {
-      width: "100%",
-      borderRadius: 23,
-      background: "rgba(255, 255, 255, 0.25)",
-      position: "relative",
-      overflow: "hidden",
-    },
-    mapImg: {
+    map: {
       width: "100%",
       height: 300,
       objectFit: "cover",
       objectPosition: "center",
-      borderRadius: 23,
+      borderRadius: 10,
     },
-    captureIcons: {
+    capture: {
       position: "absolute", 
       bottom: 10,           
-      right: 10,      
-      width: 22,
-      height: 22,
-      borderRadius: "50%",
-      backgroundColor: "var(--light-100)",
-      border: "1px dashed var(--dark-300)",
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      cursor: "pointer",
-      zIndex: 2,  
+      right: 10,  
     },
-    captureIcon: {
-      width: 11,
-      height: 11,
-      color: "var(--dark-200)",
-    },
-    reviewWrapper: {
+    wrapper: {
       width: "100%",
       display: "flex",
       alignItems: "center",
       justifyContent: "center", 
+      border: "1px solid var(--light-100)",
       borderRadius: 12,
+      padding: 2,
       background: "rgba(255, 255, 255, 0.15)",
       backdropFilter: "blur(14px)",
       WebkitBackdropFilter: "blur(14px)",
-      border: "1px solid var(--light-100)",
-      padding: 2,
     },
-    reviewBox: {
+    box: {
       width: "100%",
       display: "flex",
       alignItems: "center",
       justifyContent: "center", 
       gap: 6,
-      padding: 8,
-      borderRadius: 12,
-      background: "rgba(255, 255, 255, 0.25)",
+      padding: 10,
+      borderRadius: 10,
+      background: "rgba(255, 255, 255, 0.15)",
     },
-    reviewIcons: { 
-      width: 14,
-      height: 14,
+    reviews: { 
+      width: 16,
+      height: 16,
       color: "var(--dark-200)",
+      cursor: "pointer",
     },
-    reviewIcon: { 
+    review: { 
       width: 14,
       height: 14,
       color: "color-mix(in srgb, var(--dark-400) 40%, transparent)",
     },
-    reviewText: {
-      fontSize: 11,
-      fontWeight: 550,
+    text: {
+      fontSize: 12,
+      fontWeight: 500,
       color: "var(--dark-200)",
-      lineHeight: 1.8,
+      lineHeight: 1.6,
       textAlign: "justify"
     },
-    viewerOverlay: {
+    overlays: {
       position: "fixed",
       inset: 0,
       zIndex: 9999,
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
-      width: "95%",
-      height: "97.5%",
-      border: "1px solid var(--light-100)",
-      borderRadius: 15,
-      padding: 2,
-      background: "rgba(255, 255, 255, 0.15)",
-      backdropFilter: "blur(14px)",
-      WebkitBackdropFilter: "blur(14px)",
-      margin: "10px auto 0"
-    },
-    viewerMain: {
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
       width: "100%",
       height: "100%",
-      borderRadius: 12,
-      background: "rgba(255, 255, 255, 0.25)",
     },
-    closeIcons: {
+    close: {
       position: "absolute",
       top: 15,
       right: 15,
-      width: 20,
-      height: 20,
-      borderRadius: "50%",
-      backgroundColor: "var(--light-100)",
-      border: "1px dashed var(--dark-300)",
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      cursor: "pointer",
     },
-    closeIcon: {
-      width: 10,
-      height: 10,
-      color: "var(--dark-200)",
-    },
-    viewerImg: {
+    overlay: {
       width: "100%",
       height: "100%",
       objectFit: "cover",
@@ -389,112 +371,108 @@ const Activity: FC<Props> = ({ onClose }) => {
   } as const;
 
   return (
-    <Box style={styles.container}>
+    <motion.div style={styles.container} variants={containerVariants} initial="hidden" animate={isVisible ? "visible" : "hidden"} exit="exit">
       <svg style={{ display: "none" }}>
         <filter id="noiseFilter">
           <feTurbulence type="fractalNoise" baseFrequency="0.6" stitchTiles="stitch" />
         </filter>
       </svg>
       
-      <Box style={styles.noiseOverlay} />
+      <Box style={styles.noise} />
 
       <Box style={styles.body}>
-        <Box style={styles.top}>
-          <Box style={styles.topIcons} onClick={onClose}>
-            <IconX style={styles.topIcon}  />
+        <motion.div style={styles.top} variants={itemVariants}>
+          <Box style={styles.icons} onClick={onClose}>
+            <IconX style={styles.icon}  />
           </Box>
-        </Box>
+        </motion.div>
 
         <Box style={styles.middle}>
-          <Box style={styles.middleImage}>
-            <img src={ProfileImg} alt="Profile Img" style={styles.middleImg} />
-          </Box>
+          <motion.div style={styles.initials} variants={itemVariants}>
+            <img src={ProfileImg} alt="Profile Img" style={styles.initial} />
+          </motion.div>
 
-          <Box style={styles.middleTexts}>
-            <Text style={styles.middleTitle}>Daniel Smith</Text>
-            <Text style={styles.middleText}>location - Babcock University</Text>
-          </Box>
+          <motion.div style={styles.titles} variants={itemVariants}>
+            <Text style={styles.title}>Christopher Amah</Text>
+            <Text style={styles.subtitle}>location - Babcock University</Text>
+          </motion.div>
 
-          <Box style={styles.middleScroller}>
-            <Box ref={barRef} style={styles.middleScroll}>
+          <Box style={styles.scroller}>
+            <motion.div ref={barRef} style={styles.scroll} variants={itemVariants}>
               {!iconReached && (
-                <Box style={styles.carIcons}>
-                  <CarIcon style={styles.carIcon} />
+                <Box style={styles.icons1}>
+                  <CarIcon style={styles.icon1} />
                 </Box>
               )}
 
               {!iconReached && (
-                <Box style={styles.circleIcons}>
-                  <IconCircleFilled style={styles.circleIcon} />
+                <Box style={styles.icons2}>
+                  <IconCircleFilled style={styles.icon2} />
                 </Box>
               )}
 
               {iconReached && (
-                <Box style={styles.carIcons}>
-                  <CarIcon style={styles.carIcon} />
+                <Box style={styles.icons1}>
+                  <CarIcon style={styles.icon1} />
                 </Box>
               )}
-            </Box>
+            </motion.div>
 
-            <Text style={styles.middleSpan}>
+            <motion.div style={styles.spans} variants={itemVariants}>
               {rideStatus === "started" && (
                 <>
-                  Driver has <span style={styles.middleSpans}>arrived</span>
+                  Driver has <span style={styles.span}>arrived</span>
                 </>
               )}
 
               {rideStatus === "ongoing" && (
                 <>
-                  Arrives in <span style={styles.middleSpans}>54 mins</span>
+                  Arrives in <span style={styles.span}>54 mins</span>
                 </>
               )}
 
               {rideStatus === "ended" && (
                 <>
-                  Ride has <span style={styles.middleSpans}>ended</span>
+                  Ride has <span style={styles.span}>ended</span>
                 </>
               )}
-            </Text>
+            </motion.div>
           </Box>
         </Box>
         
         <Box style={styles.bottom}>
-          <Box style={styles.map}>
-            <Box style={styles.maps}>
-              <img src={MapImage} alt="map" style={styles.mapImg} />
-              <Box style={styles.captureIcons} onClick={() => setIsMapExpanded(true)}>
-                <CaptureIcon style={styles.captureIcon} />
-              </Box>
+          <motion.div style={styles.maps} variants={itemVariants}>
+            <img src={MapImage} alt="map" style={styles.map} />
+            <Box style={{ ...styles.icons, ...styles.capture }} onClick={() => setIsMapExpanded(true)}>
+              <CaptureIcon style={styles.icon} />
             </Box>
-          </Box>
+          </motion.div>
 
-          <Box style={styles.reviewWrapper}>
-            <Box style={styles.reviewBox}>{renderStars()}</Box>
-          </Box>
+          <motion.div style={styles.wrapper} variants={itemVariants}>
+            <Box style={styles.box}>{renderStars()}</Box>
+          </motion.div>
 
-          <Box style={styles.reviewWrapper}>
-            <Box style={styles.reviewBox}>
-              <Text style={styles.reviewText}>
+          <motion.div style={styles.wrapper} variants={itemVariants}>
+            <Box style={styles.box}>
+              <Text style={styles.text}>
                 Excellent service! The driver was on time, helped with our luggage, and possessed great communication skills. Highly professional and polite.
               </Text>
             </Box>
-          </Box>
+          </motion.div>
         </Box>
       </Box>
 
       {isMapExpanded && (
-        <Box style={styles.viewerOverlay}>
-          <Box style={styles.viewerMain}>
-            <Box style={styles.closeIcons} onClick={() => setIsMapExpanded(false)}>
-              <IconX style={styles.closeIcon} />
-            </Box>
+        <Box style={styles.overlays}>
+          <Box style={{ ...styles.icons, ...styles.close}} onClick={() => setIsMapExpanded(false)}>
+            <IconX style={styles.icon} />
           </Box>
 
-          <img src={MapImage} style={styles.viewerImg} />
+          <img src={MapImage} style={styles.overlay} />
         </Box>
       )}
-    </Box>
+    </motion.div>
   );
 };
 
-export default Activity;
+export default Map;

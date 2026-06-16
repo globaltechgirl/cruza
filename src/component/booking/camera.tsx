@@ -1,29 +1,68 @@
 import { FC, useState, useRef, useEffect } from "react";
-import { Box, Text } from "@mantine/core";
+import { Box } from "@mantine/core";
+import { motion } from "framer-motion";
 import { IconChevronLeft, IconChevronRight, IconX } from "@tabler/icons-react";
 import BagIcon from "@/assets/icons/bag";
-import BookmarkIcon from "@/assets/icons/bookmark";
 import CheckIcon from "@/assets/icons/checks";
 import Bag1 from "@/assets/bag1.jpg";
 import Bag2 from "@/assets/bag2.jpg";
 import Bag3 from "@/assets/bag3.jpg";
 
-const Camera: FC = () => {
+const containerVariants = {
+  hidden: {
+    transition: {
+      staggerChildren: 0.1,
+      staggerDirection: -1,
+    },
+  },
+  visible: {
+    transition: {
+      staggerChildren: 0.1,
+      delayChildren: 0.15,
+    },
+  },
+};
+
+const itemVariants = {
+  hidden: {
+    opacity: 0,
+    y: 20,
+    transition: { duration: 0.3 },
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.35 },
+  },
+};
+
+type Props = {
+  isVisible?: boolean;
+};
+
+const Camera: FC<Props> = ({ isVisible = true }) => {
   const styles = {
     container: {
       flex: 1,
       minHeight: 0,
+      display: "flex",
+      flexDirection: "column",
       width: "100%",
-      height: "calc(var(--vh) * 100)",
-      overflow: "hidden",
-      position: "relative",
+      height: "100%",
+      borderRadius: "14px 14px 0 0",
+      border: "1px solid var(--light-100)",
       borderTopLeftRadius: 15,
       borderTopRightRadius: 15,
-      border: "1px dashed var(--dark-300)",
-      background:
-        "linear-gradient(135deg, var(--light-100) 0%, var(--light-100) 50%, var(--light-100) 100%)",
+      gap: 15,
+      padding: "25px 15px 15px 15px",
+      overflowY: "auto",      
+      scrollbarWidth: "none",   
+      msOverflowStyle: "none",
+      overflow: "hidden",
+      position: "relative",
+      background: "linear-gradient(135deg, var(--light-100) 0%, var(--light-100) 50%, var(--light-100) 100%)",
     },
-    noiseOverlay: {
+    noise: {
       position: "absolute",
       top: 0,
       left: 0,
@@ -35,86 +74,58 @@ const Camera: FC = () => {
       opacity: 0.2,
     },
     body: {
-      display: "flex",
-      flexDirection: "column",
-      justifyContent: "flex-start",
-      alignItems: "flex-start",
-      gap: 30,
-      padding: "40px 15px 20px 15px",
-      width: "100%",
-      height: "100%",
-      overflowY: "auto",
-      overflowX: "hidden",
-      position: "relative",
-      zIndex: 1,
-    },
-    content: {
       width: "100%",
       display: "flex",
       justifyContent: "flex-start",
       alignItems: "flex-start",
-      gap: 25,
+      gap: 20,
+      paddingTop: 20,
     },
-    leftSide: {
+    lines: {
       display: "flex",
       flexDirection: "column",
       alignItems: "center",
-      gap: 5,
+      gap: 6,
     },
-    sideIcons: {
-      width: 20,
-      height: 20,
-      borderRadius: "50%",
-      backgroundColor: "var(--light-100)",
+    icons: {
+      background: "rgba(255, 255, 255, 0.55)",
       border: "1px dashed var(--dark-300)",
+      backdropFilter: "blur(14px)",
+      WebkitBackdropFilter: "blur(14px)",
+      borderRadius: "50%",
+      width: 22,
+      height: 22,
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
     },
-    sideIcon: {
-      width: 10,
-      height: 10,
+    icon: {
+      width: 12,
+      height: 12,
       color: "var(--dark-200)",
     },
-    dashedLine: {
+    line: {
       width: 1,
-      height: 60,
       borderLeft: "1px dashed var(--dark-400)",
     },
-    rightSide: {
+    side: {
       display: "flex",
       flexDirection: "column",
-      gap: 30,
+      gap: 40,
     },
-    section: {
-      display: "flex",
-      flexDirection: "column",
-      gap: 10,
-    },
-    title: {
-      fontSize: 11,
-      fontWeight: 550,
-      color: "var(--dark-100)",
-    },
-    description: {
-      fontSize: 10,
-      fontWeight: 500,
-      color: "var(--dark-200)",
-      lineHeight: 1.8,
-    },
-    imageStack: {
+    stack: {
       position: "relative",
-      width: "100%",
-      maxWidth: 280,
+      width: 280,
       height: 220,
       cursor: "pointer",
-      marginTop: 10,
+      marginTop: 5,
+      flexShrink: 0,
     },
-    bagImage1: {
+    images1: {
       position: "absolute",
       top: 0,
       left: "0%",
-      width: "65%",
+      width: 180,
       height: 220,
       transform: "rotate(-2deg)",
       zIndex: 3,
@@ -125,11 +136,11 @@ const Camera: FC = () => {
       backdropFilter: "blur(14px)",
       WebkitBackdropFilter: "blur(14px)",
     },
-    bagImage2: {
+    images2: {
       position: "absolute",
       top: 0,
-      left: "20%",
-      width: "65%",
+      left: 50, 
+      width: 180,
       height: 220,
       transform: "rotate(2deg)",
       zIndex: 2,
@@ -140,11 +151,11 @@ const Camera: FC = () => {
       backdropFilter: "blur(14px)",
       WebkitBackdropFilter: "blur(14px)",
     },
-    bagImage3: {
+    images3: {
       position: "absolute",
       top: 5,
-      left: "35%",
-      width: "65%",
+      left: 90, 
+      width: 180,
       height: 220,
       transform: "rotate(5deg)",
       zIndex: 1,
@@ -155,35 +166,27 @@ const Camera: FC = () => {
       backdropFilter: "blur(14px)",
       WebkitBackdropFilter: "blur(14px)",
     },
-    bagImage: {
+    image: {
       width: "100%",
       height: "100%",
       objectFit: "cover",
       objectPosition: "center",
-      borderRadius: 8,
+      borderRadius: 10,
     },
     approve: {
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-      gap: 5,
-      borderRadius: 6,
-      backgroundColor: "var(--light-100)",
-      width: "fit-content",
-      padding: "3px 8px",
-    },
-    approveIcon: {
-      width: 11,
-      height: 11,
-      color: "var(--dark-200)",
-    },
-    approveText: {
+      padding: "2px 8px",
+      background: "rgba(229, 228, 226)",
+      backdropFilter: "blur(14px)",
+      WebkitBackdropFilter: "blur(14px)",
+      border: "1px solid var(--dark-400)",
+      borderRadius: 20,
       fontSize: 10,
       fontWeight: 500,
       color: "var(--dark-200)",
-      textTransform: "capitalize",
+      cursor: "pointer",
+      width: "fit-content",
     },
-    viewerOverlay: {
+    overlays: {
       position: "fixed",
       inset: 0,
       zIndex: 9999,
@@ -193,68 +196,30 @@ const Camera: FC = () => {
       width: "100%",
       height: "100%",
       overflow: "hidden",
+      border: "1px solid var(--light-100)",
       borderTopLeftRadius: 15,
       borderTopRightRadius: 15,
-      border: "1px dashed var(--dark-300)",
     },
-    viewerMain: {
+    overlay: {
       width: "100%",
       height: "100%",
       objectFit: "cover",
       objectPosition: "center",
-      borderTopLeftRadius: 12,
-      borderTopRightRadius: 12,
+      borderTopLeftRadius: 15,
+      borderTopRightRadius: 15,
     },
-    arrowLeft: {
-      position: "absolute",
-      left: 10,
-      width: 20,
-      height: 20,
-      borderRadius: "50%",
-      backgroundColor: "var(--light-100)",
-      border: "1px dashed var(--dark-300)",
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      cursor: "pointer",
-    },
-    arrowRight: {
-      position: "absolute",
-      right: 10,
-      width: 20,
-      height: 20,
-      borderRadius: "50%",
-      backgroundColor: "var(--light-100)",
-      border: "1px dashed var(--dark-300)",
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      cursor: "pointer",
-    },
-    arrowIcon: {
-      width: 13,
-      height: 13,
-      color: "var(--dark-200)",
-      cursor: "pointer",
-    },
-    closeIcons: {
+    close: {
       position: "absolute",
       top: 15,
       right: 15,
-      width: 20,
-      height: 20,
-      borderRadius: "50%",
-      backgroundColor: "var(--light-100)",
-      border: "1px dashed var(--dark-300)",
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      cursor: "pointer",
     },
-    closeIcon: {
-      width: 10,
-      height: 10,
-      color: "var(--dark-200)",
+    left: {
+      position: "absolute",
+      left: 10,
+    },
+    right: {
+      position: "absolute",
+      right: 10,
     },
   } as const;
 
@@ -278,130 +243,83 @@ const Camera: FC = () => {
     );
   };
 
-  const descRef = useRef<HTMLDivElement>(null);
   const lugRef = useRef<HTMLDivElement>(null);
   const approveRef = useRef<HTMLDivElement>(null);
 
   const [heights, setHeights] = useState({
-    desc: 0,
     lug: 0,
     approve: 0,
   });
 
   useEffect(() => {
     setHeights({
-      desc: descRef.current?.offsetHeight || 0,
       lug: lugRef.current?.offsetHeight || 0,
       approve: approveRef.current?.offsetHeight || 0,
     });
   }, []);
 
   return (
-    <Box style={styles.container}>
+    <motion.div style={styles.container} variants={containerVariants} initial="hidden" animate={isVisible ? "visible" : "hidden"} exit="exit">
       <svg style={{ display: "none" }}>
         <filter id="noiseFilter">
           <feTurbulence type="fractalNoise" baseFrequency="0.6" stitchTiles="stitch" />
         </filter>
       </svg>
 
-      <Box style={styles.noiseOverlay} />
+      <Box style={styles.noise} />
       
       <Box style={styles.body}>
-        <Box style={styles.content}>
-          <Box style={styles.leftSide}>
-            <Box style={styles.sideIcons}>
-              <BookmarkIcon style={styles.sideIcon} />
-            </Box>
+        <Box style={styles.lines}>
+          <motion.div style={styles.icons} variants={itemVariants}>
+            <BagIcon style={styles.icon} />
+          </motion.div>
 
-            <Box
-              style={{
-                width: 1,
-                height: heights.desc,
-                borderLeft: "1px dashed var(--dark-400)",
-              }}
-            />
+          <Box style={{ ...styles.line, height: heights.lug + 12 }} />
 
-            <Box style={styles.sideIcons}>
-              <BagIcon style={styles.sideIcon} />
-            </Box>
+          <motion.div style={styles.icons} variants={itemVariants}>
+            <CheckIcon style={styles.icon} />
+          </motion.div>
+        </Box>
 
-            <Box
-              style={{
-                width: 1,
-                height: heights.lug,
-                borderLeft: "1px dashed var(--dark-400)",
-              }}
-            />
-
-            <Box style={styles.sideIcons}>
-              <CheckIcon style={styles.sideIcon} />
-            </Box>
+        <Box style={styles.side}>
+          <Box
+            ref={lugRef}
+            style={styles.stack}
+            onClick={(e) => { e.stopPropagation(); openViewer(0); }}
+          >
+            <motion.div style={styles.images1} variants={itemVariants}>
+              <img src={Bag1} alt="Bag 1" style={styles.image} />
+            </motion.div>
+            <motion.div style={styles.images2} variants={itemVariants}>
+              <img src={Bag2} alt="Bag 2" style={styles.image} />
+            </motion.div>
+            <motion.div style={styles.images3} variants={itemVariants}>
+              <img src={Bag3} alt="Bag 3" style={styles.image} />
+            </motion.div>
           </Box>
 
-          <Box style={styles.rightSide}>
-            <Box ref={descRef} style={styles.section}>
-              <Text style={styles.title}>Description</Text>
-
-              <Text style={styles.description}>
-                Premium travel luggage designed for comfort, durability,
-                and elegance. Perfect for business trips, vacations,
-                and everyday movement with spacious compartments and
-                secure storage.
-              </Text>
-            </Box>
-
-            <Box ref={lugRef} style={styles.section}>
-              <Text style={styles.title}>Luggage</Text>
-
-              <Box
-                style={styles.imageStack}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  openViewer(0);
-                }}
-              >
-                <Box style={styles.bagImage1}>
-                  <img src={Bag1} alt="Bag 1" style={styles.bagImage} />
-                </Box>
-                <Box style={styles.bagImage2}>
-                  <img src={Bag2} alt="Bag 2" style={styles.bagImage} />
-                </Box>
-                <Box style={styles.bagImage3}>
-                  <img src={Bag3} alt="Bag 3" style={styles.bagImage} />
-                </Box>
-              </Box>
-            </Box>
-
-            <Box ref={approveRef} style={styles.section}>
-              <Text style={styles.title}>Approval</Text>
-
-              <Box style={styles.approve}>
-                <CheckIcon style={styles.approveIcon} />
-                <Text style={styles.approveText}>Approve Luggage</Text>
-              </Box>
-            </Box>
-          </Box>
+          <motion.div ref={approveRef} style={styles.approve} variants={itemVariants}>Approve Luggage</motion.div>
         </Box>
       </Box>
 
       {viewerOpen && (
-        <Box style={styles.viewerOverlay}>
-          <Box style={styles.closeIcons} onClick={() => setViewerOpen(false)}>
-            <IconX style={styles.closeIcon} />
+        <Box style={styles.overlays}>
+          <Box style={{ ...styles.icons, ...styles.close }} onClick={() => setViewerOpen(false)}>
+            <IconX style={styles.icon} />
           </Box>
 
-          <Box style={styles.arrowLeft} onClick={prevImage}>
-            <IconChevronLeft style={styles.arrowIcon} />
+          <Box style={{ ...styles.icons, ...styles.left }} onClick={prevImage}>
+            <IconChevronLeft style={styles.icon} />
           </Box>
 
-          <img src={images[currentImage]} alt="Preview" style={styles.viewerMain} />
+          <img src={images[currentImage]} alt="Preview" style={styles.overlay} />
 
-          <Box style={styles.arrowRight} onClick={nextImage}>
-            <IconChevronRight style={styles.arrowIcon} />
+          <Box style={{ ...styles.icons, ...styles.right }} onClick={nextImage}>
+            <IconChevronRight style={styles.icon} />
           </Box>
         </Box>
       )}
-    </Box>
+    </motion.div>
   );
 };
 

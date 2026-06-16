@@ -1,5 +1,6 @@
 import { FC, KeyboardEvent, useEffect, useMemo, useRef, useState } from "react";
 import { Box, Text } from "@mantine/core";
+import { motion } from "framer-motion";
 import { IconX } from "@tabler/icons-react";
 import UserImg from "@/assets/user.jpg";
 import SendIcon from "@/assets/icons/send";
@@ -60,11 +61,40 @@ const formatDailyGroupLabel = (date: Date) => {
   });
 };
 
+const containerVariants = {
+  hidden: {
+    transition: {
+      staggerChildren: 0.1,
+      staggerDirection: -1,
+    },
+  },
+  visible: {
+    transition: {
+      staggerChildren: 0.1,
+      delayChildren: 0.15,
+    },
+  },
+};
+
+const itemVariants = {
+  hidden: {
+    opacity: 0,
+    y: 20,
+    transition: { duration: 0.3 },
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.35 },
+  },
+};
+
 type Props = {
+  isVisible?: boolean;
   onClose: () => void;
 };
 
-const Chat: FC<Props> = ({ onClose }) => {
+const Chat: FC<Props> = ({ isVisible = true, onClose }) => {
   const styles = {
     container: {
       flex: 1,
@@ -75,7 +105,7 @@ const Chat: FC<Props> = ({ onClose }) => {
       position: "relative",
       background: "linear-gradient(135deg, var(--light-200) 0%, var(--light-200) 50%, var(--light-200) 100%)",
     },
-    noiseOverlay: {
+    noise: {
       position: "absolute",
       top: 0,
       left: 0,
@@ -106,8 +136,8 @@ const Chat: FC<Props> = ({ onClose }) => {
       flex: "0 0 auto",
     },
     icons: {
-      width: 22,
-      height: 22,
+      width: 24,
+      height: 24,
       borderRadius: "50%",
       backgroundColor: "var(--light-100)",
       border: "1px dashed var(--dark-300)",
@@ -117,8 +147,8 @@ const Chat: FC<Props> = ({ onClose }) => {
       cursor: "pointer",
     },
     icon: {
-      width: 11,
-      height: 11,
+      width: 12,
+      height: 12,
       color: "var(--dark-200)",
     },
     users: {
@@ -126,9 +156,10 @@ const Chat: FC<Props> = ({ onClose }) => {
       flexDirection: "column",
       alignItems: "center",
       justifyContent: "center",
-      gap: 5,
+      gap: 6,
     },
-    imagesu: {
+    initials: {
+      position: "relative",
       width: 40,
       height: 40,
       backgroundColor: "var(--light-100)",
@@ -137,8 +168,9 @@ const Chat: FC<Props> = ({ onClose }) => {
       padding: 2,
       display: "flex",
       alignItems: "center",
+      margin: "0 auto",
     },
-    imageu: {
+    initial: {
       width: "100%",
       height: "100%",
       backgroundColor: "var(--light-200)",
@@ -165,7 +197,7 @@ const Chat: FC<Props> = ({ onClose }) => {
     label: {
       alignSelf: "center",
       backgroundColor: "transparent",
-      fontSize: 10,
+      fontSize: 11,
       fontWeight: 500,
       color: "var(--dark-200)",
     },
@@ -174,7 +206,7 @@ const Chat: FC<Props> = ({ onClose }) => {
       flexDirection: "column",
       alignItems: "flex-start",
       justifyContent: "flex-start",
-      gap: 14,
+      gap: 15,
     },
     box1: {
       display: "flex",
@@ -184,7 +216,7 @@ const Chat: FC<Props> = ({ onClose }) => {
     bubble1: {
       position: "relative",
       display: "inline-block",
-      maxWidth: "80%",
+      maxWidth: "85%",
     },
     groups: {
       display: "flex",
@@ -199,9 +231,9 @@ const Chat: FC<Props> = ({ onClose }) => {
     left: {
       backgroundColor: "var(--light-100)",
       padding: "8px 12px",
-      borderRadius: 15,
+      borderRadius: 16,
       width: "100%",
-      fontSize: 11,
+      fontSize: 12,
       fontWeight: 500,
       color: "var(--dark-200)",
       lineHeight: 1.6,
@@ -243,21 +275,21 @@ const Chat: FC<Props> = ({ onClose }) => {
       flexDirection: "column",
       alignItems: "flex-end",
       justifyContent: "flex-end",
-      gap: 14,
+      gap: 15,
     },
     bubble2: {
       position: "relative",
       display: "inline-block",
       marginRight: 5,
-      maxWidth: "80%",
+      maxWidth: "85%",
     },
     right: {
       backgroundColor: "var(--dark-200)",
       marginLeft: "auto",
       padding: "8px 12px",
-      borderRadius: 15,
+      borderRadius: 16,
       width: "100%",
-      fontSize: 11,
+      fontSize: 12,
       fontWeight: 500,
       color: "var(--light-100)",
       lineHeight: 1.6,
@@ -277,17 +309,17 @@ const Chat: FC<Props> = ({ onClose }) => {
       alignItems: "center",
       gap: 10,
     },
-    message: {
+    messages: {
       flex: 1,
-      padding: "10px 16px",
+      padding: "12px 15px",
       backgroundColor: "var(--light-200)",
       borderRadius: 20,
       display: "flex",
       alignItems: "center",
       justifyContent: "space-between",
     },
-    messageText: {
-      fontSize: 11,
+    message: {
+      fontSize: 12,
       fontWeight: 500,
       color: "var(--dark-200)",
     },
@@ -296,16 +328,16 @@ const Chat: FC<Props> = ({ onClose }) => {
       border: "none",
       outline: "none",
       background: "transparent",
-      fontSize: 11,
+      fontSize: 12,
       fontWeight: 500,
       color: "var(--dark-200)",
     },
-    iconsm: {
-      padding: 8,
+    sends: {
+      padding: 10,
       backgroundColor: "var(--dark-200)",
       borderRadius: "50%",
     },
-    iconm: {
+    send: {
       width: 16,
       height: 16,
       color: "var(--light-100)",
@@ -444,24 +476,24 @@ const Chat: FC<Props> = ({ onClose }) => {
   };
 
   return (
-    <Box style={styles.container}>
+    <motion.div style={styles.container} variants={containerVariants} initial="hidden" animate={isVisible ? "visible" : "hidden"} exit="exit">
       <svg style={{ display: "none" }}>
         <filter id="noiseFilter">
           <feTurbulence type="fractalNoise" baseFrequency="0.6" stitchTiles="stitch" />
         </filter>
       </svg>
 
-      <Box style={styles.noiseOverlay} />
+      <Box style={styles.noise} />
 
       <Box style={styles.body}>
-        <Box style={styles.top}>
+        <motion.div style={styles.top} variants={itemVariants}>
           <Box style={styles.icons} onClick={onClose}>
             <IconX style={styles.icon} />
           </Box>
 
           <Box style={styles.users}>
-            <Box style={styles.imagesu}>
-              <img src={UserImg} style={styles.imageu} />
+            <Box style={styles.initials}>
+              <img src={UserImg} style={styles.initial} />
             </Box>
             <Text style={styles.title}>John Dorwart</Text>
           </Box>
@@ -473,7 +505,7 @@ const Chat: FC<Props> = ({ onClose }) => {
               <CallIcon style={styles.icon} />
             )}
           </Box>
-        </Box>
+        </motion.div>
 
         <Box style={styles.chat}>
           {chatItems.map((item) => (
@@ -481,10 +513,10 @@ const Chat: FC<Props> = ({ onClose }) => {
               key={`group-${item.time.toISOString()}-${item.sender}`}
               style={item.sender === "me" ? styles.wrapper2 : styles.wrapper1}
             >
-              <Text style={styles.label}>{item.label}</Text>
+              <motion.div style={styles.label} variants={itemVariants}>{item.label}</motion.div>
               
               {item.sender === "other" ? (
-                <Box style={styles.groups}>
+                <motion.div style={styles.groups} variants={itemVariants}>
                   <Box style={styles.box1}>
                     <Box style={styles.images}>
                       <img src={UserImg} style={styles.image} />
@@ -499,13 +531,13 @@ const Chat: FC<Props> = ({ onClose }) => {
                       </Box>
                     </Box>
                   ))}
-                </Box>
+                </motion.div>
               ) : (
                 item.messages.map((msg) => (
-                  <Box key={msg.id} style={styles.bubble2}>
+                  <motion.div key={msg.id} style={styles.bubble2} variants={itemVariants}>
                     <Box style={styles.right}>{msg.text}</Box>
                     <Box style={styles.circle2} />
-                  </Box>
+                  </motion.div>
                 ))
               )}
             </Box>
@@ -514,7 +546,7 @@ const Chat: FC<Props> = ({ onClose }) => {
         </Box>
 
         <Box style={styles.bottom}>
-          <Box style={styles.message} onClick={() => setIsTyping(true)}>
+          <motion.div style={styles.messages} onClick={() => setIsTyping(true)} variants={itemVariants}>
             {isTyping ? (
               <input
                 autoFocus
@@ -526,16 +558,16 @@ const Chat: FC<Props> = ({ onClose }) => {
                 placeholder="Type a message..."
               />
             ) : (
-              <Text style={styles.messageText}>Type a message...</Text>
+              <Text style={styles.message}>Type a message...</Text>
             )}
-          </Box>
+          </motion.div>
 
-          <Box style={styles.iconsm} onClick={handleSend}>
-            <SendIcon style={styles.iconm} />
-          </Box>
+          <motion.div style={styles.sends} onClick={handleSend} variants={itemVariants}>
+            <SendIcon style={styles.send} />
+          </motion.div>
         </Box>
       </Box>
-    </Box>
+    </motion.div>
   );
 };
 

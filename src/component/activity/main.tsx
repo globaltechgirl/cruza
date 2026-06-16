@@ -7,41 +7,66 @@ import MapImage from "@/assets/map.jpg";
 import { IconX } from "@tabler/icons-react";
 import HandIcon from "@/assets/icons/hand";
 
+const containerVariants = {
+  hidden: {
+    transition: {
+      staggerChildren: 0.1,
+      staggerDirection: -1,
+    },
+  },
+  visible: {
+    transition: {
+      staggerChildren: 0.1,
+      delayChildren: 0.15,
+    },
+  },
+};
+
+const itemVariants = {
+  hidden: {
+    opacity: 0,
+    y: 20,
+    transition: { duration: 0.3 },
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.35 },
+  },
+};
+
 type Props = {
+  isVisible?: boolean;
   cardSwipe: boolean;
 };
 
-const Main: FC<Props> = ({ cardSwipe }) => {
+const Main: FC<Props> = ({ isVisible = true, cardSwipe }) => {
   const styles = {
     container: {
-      flex: 1,
-      minHeight: 0,
       display: "flex",
       flexDirection: "column",
-      alignItems: "center",
-      justifyContent: "center",
+      padding: "20px 15px",
+      gap: 15,
       width: "100%",
       height: "calc(var(--vh) * 100)",
-      gap: 15,
-      padding: 15,
       overflow: "hidden",
       position: "relative",
       background: "linear-gradient(135deg, var(--light-200) 0%, var(--light-200) 50%, var(--light-200) 100%)",
     },
-    noiseOverlay: {
+    noise: {
       position: "absolute",
       top: 0,
       left: 0,
       width: "100%",
-      height: "100%",
+      height: "calc(var(--vh) * 100)",
       zIndex: 0,
       pointerEvents: "none",
       filter: "url(#noiseFilter)",
       opacity: 0.2,
     },
     icons: {
-      width: 22,
-      height: 22,
+      width: 24,
+      height: 24,
       borderRadius: "50%",
       backgroundColor: "var(--light-100)",
       border: "1px dashed var(--dark-300)",
@@ -49,11 +74,11 @@ const Main: FC<Props> = ({ cardSwipe }) => {
       alignItems: "center",
       justifyContent: "center",
       cursor: "pointer",
-      marginLeft: "auto",
+      marginLeft: "auto"
     },
     icon: {
-      width: 11,
-      height: 11,
+      width: 12,
+      height: 12,
       color: "var(--dark-200)",
     },
     wrappers: {
@@ -68,10 +93,7 @@ const Main: FC<Props> = ({ cardSwipe }) => {
     wrapper: {
       position: "relative",
       width: "100%",
-      height: "450px",   
-      display: "flex",   
-      justifyContent: "center", 
-      alignItems: "center",    
+      minHeight: 450,  
     },
     cards: {
       width: "100%",
@@ -92,7 +114,7 @@ const Main: FC<Props> = ({ cardSwipe }) => {
       background: "rgba(255, 255, 255, 0.25)",
       display: "flex",
       flexDirection: "column",
-      gap: 5,
+      gap: 6,
     },
     img: {
       width: "100%",
@@ -187,25 +209,27 @@ const Main: FC<Props> = ({ cardSwipe }) => {
       marginLeft: 1.5,
     },
     offer: {
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-      gap: 5,
-      borderRadius: 6,
-      backgroundColor: "var(--light-100)",
-      width: "fit-content",
-      padding: "2px 6px",
-    },
-    icono: {
-      width: 10,
-      height: 10,
-      color: "var(--dark-200)",
-    },
-    text: {
+      padding: "2px 8px",
+      background: "var(--light-100)",
+      backdropFilter: "blur(14px)",
+      WebkitBackdropFilter: "blur(14px)",
+      border: "1px solid var(--light-100)",
+      borderRadius: 20,
       fontSize: 10,
       fontWeight: 500,
       color: "var(--dark-200)",
       textTransform: "lowercase",
+      cursor: "pointer",
+      width: "fit-content",
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      gap: 6,
+    },
+    icon1: {
+      width: 10,
+      height: 10,
+      color: "var(--dark-200)",
     },
   } as const;
 
@@ -219,18 +243,18 @@ const Main: FC<Props> = ({ cardSwipe }) => {
   const [active, setActive] = useState(0);
 
   return (
-    <Box style={styles.container}>
+    <motion.div style={styles.container} variants={containerVariants} initial="hidden" animate={isVisible ? "visible" : "hidden"} exit="exit">
       <svg style={{ display: "none" }}>
         <filter id="noiseFilter">
           <feTurbulence type="fractalNoise" baseFrequency="0.6" stitchTiles="stitch" />
         </filter>
       </svg>
 
-      <Box style={styles.noiseOverlay} />
+      <Box style={styles.noise} />
 
-      <Box style={styles.icons} onClick={() => navigate(ROUTES.HOME)}>
+      <motion.div style={styles.icons} onClick={() => navigate(ROUTES.DRIVER)} variants={itemVariants}>
         <IconX style={styles.icon}  />
-      </Box>
+      </motion.div>
 
       <Box style={styles.wrappers}>
         <Box style={styles.wrapper}>
@@ -269,75 +293,75 @@ const Main: FC<Props> = ({ cardSwipe }) => {
                   cursor: index === active ? "grab" : "default",
                 }}
               >
-                <Box style={styles.card}>
-                  <img src={MapImage} alt="map" style={styles.img} />
+              <Box style={styles.card}>
+                <img src={MapImage} alt="map" style={styles.img} />
 
-                  <Box style={styles.body}>
-                    <Text style={styles.title}>{card.title}</Text>
+                <Box style={styles.body}>
+                  <Text style={styles.title}>{card.title}</Text>
 
-                    <Box style={styles.middle}>
-                      <Box style={styles.side1}>
-                        <Text style={styles.amount}>{card.amount}</Text>
-                        <Text style={styles.currency}>naira</Text>
-                      </Box>
-
-                      <Box style={styles.side2}>
-                        <Text style={styles.label}>
-                          Pickup <span style={styles.span}>{card.pickup}</span>
-                        </Text>
-
-                        <Text style={styles.label}>
-                          Dropoff <span style={styles.span}>{card.dropoff}</span>
-                        </Text>
-
-                        <Text style={styles.label}>
-                          Pickup Date <span style={styles.span}>{card.pickupDate}</span>
-                        </Text>
-                      </Box>
+                  <Box style={styles.middle}>
+                    <Box style={styles.side1}>
+                      <Text style={styles.amount}>{card.amount}</Text>
+                      <Text style={styles.currency}>naira</Text>
                     </Box>
 
-                    <Box style={styles.bottom}>
-                      <Box style={styles.bottoms}>
-                        <Text style={styles.tag}>Distance</Text>
-                        <Text style={styles.value}>
-                          {card.distance}
-                          <span style={{ ...styles.values, marginLeft: 6.5 }}>km</span>
-                        </Text>
-                      </Box>
+                    <Box style={styles.side2}>
+                      <Text style={styles.label}>
+                        Pickup <span style={styles.span}>{card.pickup}</span>
+                      </Text>
 
-                      <Box style={styles.bottoms}>
-                        <Text style={styles.tag}>Ride Time</Text>
-                        <Text style={styles.value}>
-                          {card.rideDay}
-                          <span style={styles.values}>d</span>{" "}
-                          {card.rideHour}
-                          <span style={styles.values}>h</span>
-                        </Text>
-                      </Box>
+                      <Text style={styles.label}>
+                        Dropoff <span style={styles.span}>{card.dropoff}</span>
+                      </Text>
 
-                      <Box style={styles.bottoms}>
-                        <Text style={styles.tag}>Luggage</Text>
-                        <Text style={styles.value}>{card.luggage}</Text>
-                      </Box>
+                      <Text style={styles.label}>
+                        Pickup Date <span style={styles.span}>{card.pickupDate}</span>
+                      </Text>
+                    </Box>
+                  </Box>
 
-                      <Box style={styles.bottoms}>
-                        <Text style={styles.tag}>Members</Text>
-                        <Text style={styles.value}>{card.members}</Text>
-                      </Box>
+                  <Box style={styles.bottom}>
+                    <Box style={styles.bottoms}>
+                      <Text style={styles.tag}>Distance</Text>
+                      <Text style={styles.value}>
+                        {card.distance}
+                        <span style={{ ...styles.values, marginLeft: 6.5 }}>km</span>
+                      </Text>
+                    </Box>
+
+                    <Box style={styles.bottoms}>
+                      <Text style={styles.tag}>Ride Time</Text>
+                      <Text style={styles.value}>
+                        {card.rideDay}
+                        <span style={styles.values}>d</span>{" "}
+                        {card.rideHour}
+                        <span style={styles.values}>h</span>
+                      </Text>
+                    </Box>
+
+                    <Box style={styles.bottoms}>
+                      <Text style={styles.tag}>Luggage</Text>
+                      <Text style={styles.value}>{card.luggage}</Text>
+                    </Box>
+
+                    <Box style={styles.bottoms}>
+                      <Text style={styles.tag}>Members</Text>
+                      <Text style={styles.value}>{card.members}</Text>
                     </Box>
                   </Box>
                 </Box>
+              </Box>
               </motion.div>
             );
           })}
         </Box>
 
-        <Box style={styles.offer}>
-          <HandIcon style={styles.icono} />
-          <Text style={styles.text}>grab to swipe</Text>
-        </Box>
+        <motion.div style={styles.offer} variants={itemVariants}>
+          <HandIcon style={styles.icon1} />
+          grab to swipe
+        </motion.div>
       </Box>
-    </Box>
+    </motion.div>
   );
 };
 

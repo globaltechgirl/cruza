@@ -82,7 +82,7 @@ const Offers: FC<OffersProps> = ({ isVisible = true, onClose }) => {
       position: "relative",
       background: "linear-gradient(135deg, var(--light-200) 0%, var(--light-200) 50%, var(--light-200) 100%)",
     },
-    noiseOverlay: {
+    noise: {
       position: "absolute",
       top: 0,
       left: 0,
@@ -99,7 +99,7 @@ const Offers: FC<OffersProps> = ({ isVisible = true, onClose }) => {
       alignItems: "flex-end",
       justifyContent: "flex-end",
     },
-    iconsx: {
+    icons: {
       width: 24,
       height: 24,
       borderRadius: "50%",
@@ -110,7 +110,7 @@ const Offers: FC<OffersProps> = ({ isVisible = true, onClose }) => {
       justifyContent: "center",
       cursor: "pointer",
     },
-    iconx: {
+    icon: {
       width: 12,
       height: 12,
       color: "var(--dark-200)",
@@ -155,7 +155,7 @@ const Offers: FC<OffersProps> = ({ isVisible = true, onClose }) => {
       alignItems: "flex-start",
       justifyContent: "flex-start",
       padding: "6px 14px 6px 6px",
-      borderRadius: 8,
+      borderRadius: 10,
       backgroundColor: "var(--light-200)",
       gap: 10,
     },
@@ -190,7 +190,7 @@ const Offers: FC<OffersProps> = ({ isVisible = true, onClose }) => {
       width: "100%",
       height: "100%",
       backgroundColor: "var(--light-200)",
-      borderRadius: 8,
+      borderRadius: 10,
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
@@ -344,11 +344,11 @@ const Offers: FC<OffersProps> = ({ isVisible = true, onClose }) => {
         </filter>
       </svg>
 
-      <Box style={styles.noiseOverlay} />
+      <Box style={styles.noise} />
 
       <motion.div style={styles.main} variants={itemVariants}>
-        <Box style={styles.iconsx} onClick={handleClose}>
-          <IconX style={styles.iconx} />
+        <Box style={styles.icons} onClick={handleClose}>
+          <IconX style={styles.icon} />
         </Box>
       </motion.div>
 

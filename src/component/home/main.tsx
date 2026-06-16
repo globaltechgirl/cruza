@@ -141,7 +141,7 @@ const Main: FC = () => {
       position: "relative",
       cursor: "pointer",
     },
-    mapLayer: {
+    map: {
       position: "absolute",
       inset: 0,
       backgroundImage: `url(${MapImage})`,
@@ -150,14 +150,14 @@ const Main: FC = () => {
       backgroundRepeat: "no-repeat",
       zIndex: 0,
     },
-    gradientLayer: {
+    gradient: {
       position: "absolute",
       inset: 0,
       background: `linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.18) 50%, rgba(255,255,255,0.10) 100%)`,
       zIndex: 1,
       pointerEvents: "none",
     },
-    noiseOverlay: {
+    noise: {
       position: "absolute",
       top: 0,
       left: 0,
@@ -168,7 +168,7 @@ const Main: FC = () => {
       filter: "url(#noiseFilter)",
       opacity: 0.2,
     },
-    uiLayer: {
+    layer: {
       position: "absolute",
       inset: 0,
       zIndex: 10,
@@ -210,7 +210,7 @@ const Main: FC = () => {
       display: "flex",
       flexDirection: "column",
     },
-    blurOverlay: {
+    blur: {
       position: "absolute",
       inset: 0,
       backdropFilter: "blur(14px)",
@@ -226,12 +226,12 @@ const Main: FC = () => {
       width: "100%",
       flex: 1,
     },
-    profileOverlays: {
+    overlays: {
       position: "fixed",
       inset: 0,
       zIndex: 998,
     },
-    profileOverlay: {
+    overlay: {
       position: "fixed",
       left: "50%",
       bottom: 0,
@@ -242,7 +242,7 @@ const Main: FC = () => {
       transition: isDragging ? "none" : "height 0.25s ease",
       willChange: "transform, height",
     },
-    dragHandleWrap: {
+    handles: {
       position: "absolute",
       top: 15,
       left: "50%",
@@ -254,7 +254,7 @@ const Main: FC = () => {
       cursor: isDragging ? "grabbing" : "grab",
       touchAction: "none",
     },
-    dragHandle: {
+    handle: {
       width: 30,
       height: 3.5,
       borderRadius: 4,
@@ -272,11 +272,11 @@ const Main: FC = () => {
         </filter>
       </svg>
 
-      <Box style={styles.mapLayer} />
-      <Box style={styles.gradientLayer} />
-      <Box style={styles.noiseOverlay} />
+      <Box style={styles.map} />
+      <Box style={styles.gradient} />
+      <Box style={styles.noise} />
 
-      <Box style={styles.uiLayer}>
+      <Box style={styles.layer}>
         <motion.div style={styles.box} variants={itemVariants} initial={false} animate={isOpen ? "open" : "closed"} onClick={(event) => event.stopPropagation()}>
           <Logo style={styles.logo} />
 
@@ -284,7 +284,7 @@ const Main: FC = () => {
         </motion.div> 
 
         <motion.div style={styles.body} variants={bodyVariants} initial={false} animate={isOpen ? "open" : "closed"} onClick={(event) => event.stopPropagation()} >
-          <Box style={styles.blurOverlay} />
+          <Box style={styles.blur} />
 
           <Box style={styles.content}>
             <Activity  isVisible={isOpen} />
@@ -293,19 +293,18 @@ const Main: FC = () => {
 
         <AnimatePresence>
           {profileOpen && (
-            <Box style={styles.profileOverlays} onClick={(e) => { e.stopPropagation(); closeSheet(); }}>
+            <Box style={styles.overlays} onClick={(e) => { e.stopPropagation(); closeSheet(); }}>
               <motion.div
-                style={styles.profileOverlay}
+                style={styles.overlay}
                 onClick={(e) => e.stopPropagation()}
                 initial={{ x: "-50%", y: "100%" }}
                 animate={{ x: "-50%", y: 0 }}
                 exit={{ x: "-50%", y: "100%" }}
                 transition={{  type: "spring", stiffness: 260, damping: 26, duration: 0.28 }}
               >
-                <Box style={styles.dragHandleWrap} onMouseDown={handleMouseDown} onTouchStart={handleTouchStart} onClick={toggleSheet}>
-                  <Box style={styles.dragHandle} />
+                <Box style={styles.handles} onMouseDown={handleMouseDown} onTouchStart={handleTouchStart} onClick={toggleSheet}>
+                  <Box style={styles.handle} />
                 </Box>
-
                 <Profile />
               </motion.div>
             </Box>

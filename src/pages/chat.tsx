@@ -10,7 +10,6 @@ function Chat() {
 
   const handleChatClose = () => {
     setChatOpen(false);
-    // Navigate back to ride journey
     navigate(ROUTES.RIDE);
   };
 

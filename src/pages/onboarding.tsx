@@ -155,7 +155,7 @@ const Onboarding: FC<OnboardingProps> = ({ isVisible = true }) => {
       position: "relative",
       background: "linear-gradient(135deg, var(--light-200) 0%, var(--light-200) 50%, var(--light-200) 100%)",
     },
-    noiseOverlay: {
+    noise: {
       position: "absolute",
       top: 0,
       left: 0,
@@ -342,7 +342,7 @@ const Onboarding: FC<OnboardingProps> = ({ isVisible = true }) => {
       width: "100%",
       height: "100%",
       backgroundColor: "var(--light-200)",
-      borderRadius: 8,
+      borderRadius: 10,
       display: "flex",
       flexDirection: "column",
       alignItems: "center",
@@ -601,7 +601,7 @@ const Onboarding: FC<OnboardingProps> = ({ isVisible = true }) => {
         </filter>
       </svg>
 
-      <Box style={styles.noiseOverlay} />
+      <Box style={styles.noise} />
 
       <motion.div style={styles.main} variants={itemVariants}>
         <Box style={styles.iconsx} onClick={() => navigateTo("close", 1)}>
@@ -994,7 +994,7 @@ const Onboarding: FC<OnboardingProps> = ({ isVisible = true }) => {
         </AnimatePresence>
       </Box>
 
-      {screen !== "checklist" && screen !== "success" && screen !== "timeline" && screen !== "permissionsList" && screen !== "finalWait" && (
+      {screen !== "checklist" && screen !== "success" && screen !== "timeline" && screen !== "permissionsList" && screen !== "finalWait" && screen !== "close" && (
         <Box style={styles.boxs}>          
           <Box style={styles.box}>
             <IconChevronLeft

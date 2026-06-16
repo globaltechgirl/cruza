@@ -1,13 +1,16 @@
-import { FC, useState } from "react";
+import { FC, useState, useEffect } from "react";
 import { Box, Text } from "@mantine/core";
 import { motion } from "framer-motion";
 import MapImage from "@/assets/map.jpg";
 import CheckIcon from "@/assets/icons/checks";
+import EditIcon from "@/assets/icons/edit";
 
 type Props = {
   offerAccepted: boolean;
   setOfferAccepted: (v: boolean) => void;
 };
+
+type EditStatus = "idle" | "editing" | "upgraded";
 
 const Card: FC<Props> = ({ offerAccepted, setOfferAccepted }) => {
   const styles = {
@@ -15,6 +18,7 @@ const Card: FC<Props> = ({ offerAccepted, setOfferAccepted }) => {
       display: "flex",
       flexDirection: "column",
       alignItems: "center",
+      justifyContent: "center",
       gap: 25,
     },
     wrapper: {
@@ -41,7 +45,7 @@ const Card: FC<Props> = ({ offerAccepted, setOfferAccepted }) => {
       background: "rgba(255, 255, 255, 0.25)",
       display: "flex",
       flexDirection: "column",
-      gap: 5,
+      gap: 6,
     },
     img: {
       width: "100%",
@@ -82,6 +86,17 @@ const Card: FC<Props> = ({ offerAccepted, setOfferAccepted }) => {
       fontSize: 20,
       fontWeight: 550,
       color: "var(--dark-100)",
+    },
+    input: {
+      fontSize: 20,
+      fontWeight: 550,
+      color: "var(--dark-100)",
+      background: "none",
+      border: "none",
+      width: "100%",
+      padding: "none",
+      outline: "none",
+      fontFamily: "Ticketing",
     },
     currency: {
       fontSize: 14,
@@ -135,36 +150,82 @@ const Card: FC<Props> = ({ offerAccepted, setOfferAccepted }) => {
       color: "var(--dark-200)",
       marginLeft: 1.5,
     },
-    offer: {
+    flex: {
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
-      gap: 5,
-      borderRadius: 6,
-      backgroundColor: "var(--light-100)",
+      gap: 10,
+    },
+    offer: {
+      padding: "2px 8px",
+      background: "var(--light-100)",
+      backdropFilter: "blur(14px)",
+      WebkitBackdropFilter: "blur(14px)",
+      border: "1px solid var(--light-100)",
+      borderRadius: 20,
+      fontSize: 10,
+      fontWeight: 500,
+      color: "var(--dark-200)",
+      textTransform: "lowercase",
+      cursor: "pointer",
       width: "fit-content",
-      padding: "2px 6px",
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      gap: 6,
+    },
+    accept: {
+      padding: "2px 8px",
+      background: "rgba(255, 255, 255, 0.15)",
+      backdropFilter: "blur(14px)",
+      WebkitBackdropFilter: "blur(14px)",
+      border: "1px solid var(--light-100)",
+      borderRadius: 20,
+      fontSize: 10,
+      fontWeight: 500,
+      color: "var(--dark-200)",
+      textTransform: "lowercase",
+      cursor: "pointer",
+      width: "fit-content",
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      gap: 6,
     },
     icon: {
       width: 10,
       height: 10,
       color: "var(--dark-200)",
     },
-    text: {
-      fontSize: 10,
-      fontWeight: 500,
-      color: "var(--dark-200)",
-      textTransform: "lowercase",
-    },
   } as const;
 
-  const cards = [
+  const initialCards = [
     { title: "Ride to Babcock University", amount: "5,000", pickup: "Lekki Phase 1", dropoff: "Epe Expressway", pickupDate: "17 OCT, 2026", distance: "133,833", rideDay: "2", rideHour: "5", luggage: "2", members: "2" },
     { title: "Ride to Yaba", amount: "3,500", pickup: "Victoria Island", dropoff: "Yaba Bus Stop", pickupDate: "19 OCT, 2026", distance: "42,500", rideDay: "1", rideHour: "3", luggage: "1", members: "3" },
     { title: "Ride to Ikeja", amount: "4,200", pickup: "Lekki", dropoff: "Ikeja City Mall", pickupDate: "22 OCT, 2026", distance: "58,200", rideDay: "1", rideHour: "6", luggage: "2", members: "4" },
   ];
 
+  const [cards, setCards] = useState(initialCards);
   const [active, setActive] = useState(0);
+  const [editingState, setEditingState] = useState<EditStatus>("idle");
+
+  useEffect(() => {
+    setEditingState("idle");
+  }, [active]);
+
+  const handleEditClick = () => {
+    if (editingState === "idle") {
+      setEditingState("editing");
+    } else if (editingState === "editing") {
+      setEditingState("upgraded");
+    }
+  };
+
+  const handleAmountChange = (index: number, value: string) => {
+    setCards((prev) =>
+      prev.map((c, i) => (i === index ? { ...c, amount: value } : c))
+    );
+  };
 
   return (
     <Box style={styles.wrappers}>
@@ -179,12 +240,13 @@ const Card: FC<Props> = ({ offerAccepted, setOfferAccepted }) => {
           return (
             <motion.div
               key={index}
-              drag={index === active ? "x" : false}
+              drag={!offerAccepted && index === active ? "x" : false}
               dragConstraints={{ left: 0, right: 0 }}
               dragElastic={0.9}
               dragMomentum={true}
-              whileDrag={{ rotate: index === active ? 6 : 0, scale: 1.015, cursor: "grabbing", }}
+              whileDrag={{ rotate: !offerAccepted && index === active ? 6 : 0, scale: 1.015, cursor: "grabbing", }}
               onDragEnd={(_, info) => {
+                if (offerAccepted) return;
                 const swipeThreshold = 100;
                 if (info.offset.x < -swipeThreshold && active < cards.length - 1) { setActive(active + 1); return; }
                 if (info.offset.x > swipeThreshold && active > 0) { setActive(active - 1); return; }
@@ -201,7 +263,7 @@ const Card: FC<Props> = ({ offerAccepted, setOfferAccepted }) => {
               style={{
                 ...styles.cards,
                 zIndex: cards.length - index,
-                cursor: index === active ? "grab" : "default",
+                cursor: !offerAccepted && index === active ? "grab" : "default",
               }}
             >
               <Box style={styles.card}>
@@ -212,7 +274,21 @@ const Card: FC<Props> = ({ offerAccepted, setOfferAccepted }) => {
 
                   <Box style={styles.middle}>
                     <Box style={styles.side1}>
-                      <Text style={styles.amount}>{card.amount}</Text>
+                      {editingState === "editing" && index === active ? (
+                        <input
+                          type="text"
+                          inputMode="numeric"
+                          value={card.amount}
+                          onChange={(e) => { 
+                            const value = e.target.value.replace(/\D/g, "");
+                            handleAmountChange(index, value);
+                          }}
+                          style={styles.input}
+                          autoFocus
+                        />
+                      ) : (
+                        <Text style={styles.amount}>{card.amount}</Text>
+                      )}
                       <Text style={styles.currency}>naira</Text>
                     </Box>
 
@@ -267,11 +343,26 @@ const Card: FC<Props> = ({ offerAccepted, setOfferAccepted }) => {
         })}
       </Box>
 
-      <Box style={styles.offer} onClick={() => setOfferAccepted(true)}>
-        <CheckIcon style={styles.icon} />
-        <Text style={styles.text}>
+      <Box style={styles.flex}>
+        {!offerAccepted && (
+          <Box style={styles.offer} onClick={handleEditClick}>
+            {editingState !== "idle" && <CheckIcon style={styles.icon} />}
+            {editingState == "idle" && <EditIcon style={styles.icon} />}
+            <>
+              {editingState === "idle" && "Edit Offer"}
+              {editingState === "editing" && "Save Offer"}
+              {editingState === "upgraded" && "Offer Upgraded"}
+            </>
+          </Box>
+        )}
+
+        <Box 
+          style={offerAccepted ? styles.accept : styles.offer} 
+          onClick={() => setOfferAccepted(true)}
+        >
+          <CheckIcon style={styles.icon} />
           {offerAccepted ? "Offer Accepted" : "Accept Offer"}
-        </Text>
+        </Box>
       </Box>
     </Box>
   );

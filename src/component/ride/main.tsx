@@ -60,7 +60,7 @@ const Main: FC = () => {
       zIndex: 1,
       pointerEvents: "none",
     },
-    noiseOverlay: {
+    noise: {
       position: "absolute",
       top: 0,
       left: 0,
@@ -176,7 +176,7 @@ const Main: FC = () => {
 
       <Box style={styles.mapLayer} />
       <Box style={styles.gradientLayer} />
-      <Box style={styles.noiseOverlay} />
+      <Box style={styles.noise} />
 
       <Box style={styles.uiLayer}>
         <Box style={styles.header}>

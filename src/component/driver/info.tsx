@@ -1,64 +1,117 @@
 import { FC } from "react";
+import { motion } from "framer-motion";
 import { Box, Text } from "@mantine/core";
+import { useNavigate } from "react-router-dom";
+import { ROUTES } from "@/utils/constants";
 import Logo from "@/assets/logo.svg?react";
 import ProfileImg from "@/assets/user.jpg";
 import BellIcon from "@/assets/icons/bell";
 import SparkIcon from "@/assets/icons/spark";
 
-const Info: FC = () => {
+const containerVariants = {
+  hidden: {
+    transition: {
+      staggerChildren: 0.1,
+      staggerDirection: -1,
+    },
+  },
+  visible: {
+    transition: {
+      staggerChildren: 0.1,
+      delayChildren: 0.15,
+    },
+  },
+};
+
+const itemVariants = {
+  hidden: {
+    opacity: 0,
+    y: 20,
+    transition: { duration: 0.3 },
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.35 },
+  },
+};
+
+const topSpansVariants = {
+  hidden: {
+    transition: {
+      staggerChildren: 0.08,
+      staggerDirection: -1,
+    },
+  },
+  visible: {
+    transition: {
+      staggerChildren: 0.08,
+      delayChildren: 0.05,
+    },
+  },
+};
+
+interface InfoProps {
+  isVisible?: boolean;
+}
+
+const Info: FC<InfoProps> = ({ isVisible = true }) => {
   const styles = {
-    main: {
+    container: {
       display: "flex",
       flexDirection: "column",
       alignItems: "center",
-      gap: 15,
+      gap: 20,
       padding: 15,
       width: "100%"
     },
-    box: {
+    top: {
       width: "100%",
       display: "flex",
       alignItems: "center",
       justifyContent: "space-between"
     },
     logo: {
-      width: 25,
-      height: 25,
-      borderRadius: 6
+      width: 30,
+      height: 30,
+      borderRadius: 8
     },
     icons: {
-      width: 22,
-      height: 22,
+      width: 30,
+      height: 30,
       borderRadius: "50%",
-      backgroundColor: "var(--light-100)",
-      border: "1px dashed var(--dark-300)",
+      background: "rgba(255, 255, 255, 0.15)",
+      backdropFilter: "blur(14px)",
+      WebkitBackdropFilter: "blur(14px)",
+      border: "1px solid var(--light-100)",
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
     },
     icon: {
-      width: 11,
-      height: 11,
+      width: 14,
+      height: 14,
       color: "var(--dark-200)",
     },
-    top: {
+    main: {
       display: "flex",
       flexDirection: "column",
       alignItems: "center",
       gap: 15,
       width: "100%"
     },
-    initialsWrapper: {
-      width: 100,
-      height: 100,
+    initials: {
+      width: 76,
+      height: 76,
       backgroundColor: "var(--light-100)",
       border: "1px dashed var(--dark-300)",
       borderRadius: "50%",
       padding: 2,
-      display: "flex",  
+      display: "flex",
       alignItems: "center",
+      margin: "0 auto",
     },
-    initialsBox: {
+    initial: {
       width: "100%",
       height: "100%",
       backgroundColor: "var(--light-200)",
@@ -67,50 +120,50 @@ const Info: FC = () => {
       alignItems: "center",
       justifyContent: "center",
       objectFit: "cover",
-      objectPosition: "top"
+      objectPosition: "top",
     },
-    topText: {
+    titles: {
       display: "flex",
       flexDirection: "column",
       alignItems: "center",
-      gap: 2
+      gap: 4,
     },
-    topFull: {
-      fontSize: 18,
-      fontWeight: 580,
+    title: {
+      fontSize: 16,
+      fontWeight: 500,
       color: "var(--dark-100)",
       textTransform: "capitalize"
     },
-    topUser: {
-      fontSize: 14,
+    subtitle: {
+      fontSize: 13,
       fontWeight: 500,
       color: "var(--dark-200)",
       textTransform: "lowercase"
     },
-    topSpans: {
+    spans: {
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
-      gap: 40,
-      width: "100%"
+      gap: 35,
+      width: "100%",
+      marginTop: 2,
     },
-    topSpan: {
+    span: {
       display: "flex",
       justifyContent: "flex-end",
       alignItems: "flex-end",
-      gap: 6
+      gap: 6,
     },
-    topValue: {
+    value: {
       fontSize: 13,
-      fontWeight: 550,
+      fontWeight: 500,
       color: "var(--dark-100)",
     },
-    topLabel: {
-      fontSize: 11,
-      fontWeight: 550,
+    label: {
+      fontSize: 12,
+      fontWeight: 500,
       color: "var(--dark-200)",
       textTransform: "capitalize",
-      marginBottom: 1.5
     },
     middle: {
       width: "100%",
@@ -120,23 +173,23 @@ const Info: FC = () => {
       background: "rgba(255, 255, 255, 0.15)",
       backdropFilter: "blur(14px)",
       WebkitBackdropFilter: "blur(14px)",
-      marginTop: 10
+      marginTop: 10,
     },
-    middleBox: {
+    box: {
       width: "100%",
-      borderRadius: 8,
+      borderRadius: 10,
       padding: 10,
-      background: "rgba(255, 255, 255, 0.25)",
+      background: "rgba(255, 255, 255, 0.15)",
       display: "flex",
       flexDirection: "column",
       gap: 15,
     },
-    middleTop: {
+    flex: {
       display: "flex",
       alignItems: "center",
-      gap: 8,
+      gap: 10,
     },
-    middleIcons: {
+    icons1: {
       width: 20,
       height: 20,
       borderRadius: "50%",
@@ -146,111 +199,107 @@ const Info: FC = () => {
       justifyContent: "center",
       flexShrink: 0,
     },
-    middleIcon: {
+    icon1: {
       width: 12,
       height: 12,
       color: "var(--dark-200)",
     },
-    middleTitle: {
-      fontSize: 11,
-      fontWeight: 550,
+    text: {
+      fontSize: 12,
+      fontWeight: 500,
       color: "var(--dark-100)",
     },
-    barBox: {
+    bars: {
       display: "flex",
       alignItems: "center",
       gap: 6,
       width: "100%",
     },
-    bar: {
+    fill: {
       flex: 1,
       height: 8,
       borderRadius: 8,
       backgroundColor: "color-mix(in srgb, var(--dark-400) 40%, transparent)",
     },
-    barFilled: {
+    filled: {
       flex: 1,
       height: 8,
       borderRadius: 8,
       backgroundColor: "var(--dark-200)",
     },
-    middleText: {
-      fontSize: 10,
+    info: {
+      fontSize: 12,
       fontWeight: 500,
       color: "var(--dark-200)",
       lineHeight: 1.4,
     },
-    body: {
-      backgroundColor: "var(--light-100)",
-      padding: "5px 15px",
-      borderTopLeftRadius: 10,
-      borderTopRightRadius: 10
-    }
   } as const;
 
+  const navigate = useNavigate();
+
   return (
-    <Box style={styles.main}>
-      <Box style={styles.box}>
+    <motion.div style={styles.container} variants={containerVariants} initial="hidden" animate={isVisible ? "visible" : "hidden"} exit="exit">
+      <motion.div style={styles.top} variants={itemVariants}>
         <Logo style={styles.logo} />
-        <Box style={styles.icons}>
+        <Box style={styles.icons} onClick={() => navigate(ROUTES.NOTIFY)}>
           <BellIcon style={styles.icon}/>
         </Box>
-      </Box>
+      </motion.div>
 
-      <Box style={styles.top}>
-        <Box style={styles.initialsWrapper}>
-          <img src={ProfileImg} alt="Profile Img" style={styles.initialsBox} />
-        </Box>
+      <motion.div style={styles.main} variants={itemVariants}>
+        <motion.div style={styles.initials} variants={itemVariants}>
+          <img src={ProfileImg} alt="Profile Img" style={styles.initial} />
+        </motion.div>
 
-        <Box style={styles.topText}>
-          <Text style={styles.topFull}>Bryant Orjiako</Text>
-          <Text style={styles.topUser}>@bryantorjiako</Text>
-        </Box>
+        <motion.div style={styles.titles} variants={itemVariants}>
+          <Text style={styles.title}>Christopher Amah</Text>
+          <Text style={styles.subtitle}>Babcock University</Text>
+        </motion.div>
 
-        <Box style={styles.topSpans}>
-          <Box style={styles.topSpan}>
-            <Text style={styles.topValue}>100</Text>
-            <Text style={styles.topLabel}>Reviews</Text>
-          </Box>
-          <Box style={styles.topSpan}>
-            <Text style={styles.topValue}>1582</Text>
-            <Text style={styles.topLabel}>Rides</Text>
-          </Box>
-          <Box style={styles.topSpan}>
-            <Text style={styles.topValue}>2</Text>
-            <Text style={styles.topLabel}>Vehicles</Text>
-          </Box>
-        </Box>
-      </Box>
+        <motion.div style={styles.spans} variants={topSpansVariants}>
+          <motion.div style={styles.span} variants={itemVariants}>
+            <Text style={styles.value}>100</Text>
+            <Text style={styles.label}>Reviews</Text>
+          </motion.div>
+          <motion.div style={styles.span} variants={itemVariants}>
+            <Text style={styles.value}>1582</Text>
+            <Text style={styles.label}>Rides</Text>
+          </motion.div>
+          <motion.div style={styles.span} variants={itemVariants}>
+            <Text style={styles.value}>2</Text>
+            <Text style={styles.label}>Vehicles</Text>
+          </motion.div>
+        </motion.div>
+      </motion.div>
 
-      <Box style={styles.middle}>
-        <Box style={styles.middleBox}>
-          <Box style={styles.middleTop}>
-            <Box style={styles.middleIcons}>
-              <SparkIcon style={styles.middleIcon} />
+      <motion.div style={styles.middle} variants={itemVariants}>
+        <Box style={styles.box}>
+          <Box style={styles.flex}>
+            <Box style={styles.icons1}>
+              <SparkIcon style={styles.icon1} />
             </Box>
 
-            <Text style={styles.middleTitle}>Weekly Ride Activity</Text>
+            <Text style={styles.text}>Ride Activity</Text>
           </Box>
 
-          <Box style={styles.barBox}>
-            <Box style={styles.barFilled} />
-            <Box style={styles.barFilled} />
-            <Box style={styles.barFilled} />
-            <Box style={styles.barFilled} />
-            <Box style={styles.barFilled} />
-            <Box style={styles.barFilled} />
-            <Box style={styles.bar} />
-            <Box style={styles.bar} />
-            <Box style={styles.bar} />
+          <Box style={styles.bars}>
+            <Box style={styles.filled} />
+            <Box style={styles.filled} />
+            <Box style={styles.filled} />
+            <Box style={styles.filled} />
+            <Box style={styles.filled} />
+            <Box style={styles.filled} />
+            <Box style={styles.fill} />
+            <Box style={styles.fill} />
+            <Box style={styles.fill} />
           </Box>
 
-          <Text style={styles.middleText}>
-             You have completed 75% of your weekly ride activity!
+          <Text style={styles.info}>
+            You have completed 75% of your ride activity!
           </Text>
         </Box>
-      </Box>
-    </Box>
+      </motion.div>
+    </motion.div>
   );
 };
 

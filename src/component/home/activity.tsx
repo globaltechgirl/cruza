@@ -58,7 +58,7 @@ const Activity: FC<ActivityProps> = ({ isVisible = true }) => {
     container: {
       display: "flex",
       flexDirection: "column",
-      gap: 18,
+      gap: 20,
     },
     initials: {
       width: 66,
@@ -137,14 +137,14 @@ const Activity: FC<ActivityProps> = ({ isVisible = true }) => {
     },
     box: {
       width: "100%",
-      borderRadius: 8,
+      borderRadius: 10,
       padding: 10,
       background: "rgba(255, 255, 255, 0.15)",
       display: "flex",
       flexDirection: "column",
       gap: 15,
     },
-    top: {
+    flex: {
       display: "flex",
       alignItems: "center",
       gap: 10,
@@ -238,7 +238,7 @@ const Activity: FC<ActivityProps> = ({ isVisible = true }) => {
 
       <motion.div style={styles.middle} variants={itemVariants} onClick={() => navigate(ROUTES.ACTIVITY)}>
         <Box style={styles.box}>
-          <Box style={styles.top}>
+          <Box style={styles.flex}>
             <Box style={styles.icons}>
               <SparkIcon style={styles.icon} />
             </Box>
