@@ -255,6 +255,8 @@ const Camera: FC<Props> = ({ isVisible = true }) => {
     });
   }, []);
 
+  const [isApproved, setIsApproved] = useState(false);
+
   return (
     <motion.div style={styles.container} variants={containerVariants} initial="hidden" animate={isVisible ? "visible" : "hidden"} exit="exit">
       <svg style={{ display: "none" }}>
@@ -295,7 +297,9 @@ const Camera: FC<Props> = ({ isVisible = true }) => {
             </motion.div>
           </Box>
 
-          <motion.div ref={approveRef} style={styles.approve} variants={itemVariants}>Approve Luggage</motion.div>
+          <motion.div ref={approveRef} style={styles.approve} onClick={() => setIsApproved((prev) => !prev)} variants={itemVariants}>
+            {isApproved ? "Luggage Approved" : "Approve Luggage"}
+          </motion.div>
         </Box>
       </Box>
 
