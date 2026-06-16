@@ -60,7 +60,7 @@ const Activity: FC<ActivityProps> = ({ isVisible = true }) => {
       backgroundColor: "var(--light-200)",
       display: "flex",
       flexDirection: "column",
-      gap: 15,
+      gap: 12,
     },
     top: {
       width: "100%",
@@ -113,7 +113,7 @@ const Activity: FC<ActivityProps> = ({ isVisible = true }) => {
       fontWeight: 550,
       color: "var(--dark-100)",
       textTransform: "capitalize",
-      marginTop: 10,
+      marginTop: 6,
       marginLeft: 2
     },
     cards2: {
